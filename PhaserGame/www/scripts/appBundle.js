@@ -12,10 +12,8 @@ var PhaserGame = (function () {
             _this.game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
             _this.background = new MySprite(_this.game.add.sprite(0, 0, "background"));
             _this.background.object.inputEnabled = true;
-            //this.background.object.events.onInputDown.add((sprite, event) => { this.placeItem(sprite, event); }, this);
             _this.background.object.scale.setTo(window.screen.width / _this.background.object.width, window.screen.height / _this.background.object.height);
             _this.game.physics.startSystem(Phaser.Physics.ARCADE);
-            _this.game.stage.backgroundColor = "#0072bc";
             _this.boxSprite = _this.game.add.sprite(200, 200, "box");
             _this.boxSprite.anchor.setTo(0.5, 0.5);
             _this.boxSprite.scale.set(0.5, 0.5);
@@ -24,9 +22,15 @@ var PhaserGame = (function () {
             //  Tell it we don't want physics to manage the rotation
             _this.boxSprite.body.allowRotation = false;
             //var musicFile = new Media("http://translate.google.com/translate_tts?ie=UTF-8&total=1&idx=0&textlen=32&client=tw-ob&q=%C5%BBryj%20o%C5%82%C3%B3w%20suko&tl=Pl-pl", null, null);
-            //var musicFile = new Media("file:///android_asset/www/audio/theme.mp3", null, null);
-            var musicFile = new Media("ms-appdata:///www/audio/theme.mp3", null, null);
+            var musicFile = new Media("file:///android_asset/www/audio/theme.mp3", null, null);
+            //var musicFile = new Media("ms-appdata:///www/audio/theme.mp3", null, null);
             musicFile.play();
+        };
+        this.Get = function (yourUrl) {
+            var Httpreq = new XMLHttpRequest(); // a new request
+            Httpreq.open("GET", yourUrl, false);
+            Httpreq.send(null);
+            return Httpreq.responseText;
         };
         this.render = function () {
             //this.game.debug.spriteInfo(this.boxSprite, 32, 32);
@@ -37,8 +41,15 @@ var PhaserGame = (function () {
         this.game = new Phaser.Game(window.screen.width, window.screen.height, Phaser.AUTO, "content", { preload: function () { _this.preload(); }, create: function () { _this.create(); }, update: function () { _this.update(); }, render: function () { _this.render(); } });
     }
     PhaserGame.prototype.preload = function () {
+        var json_obj = JSON.parse(this.Get("http://testapi.bigstockphoto.com/2/883610/search/?q=dog"));
+        var images = new Array();
+        for (var i in json_obj.data.images) {
+            var image = json_obj.data.images[i].small_thumb.url;
+            images.push(image);
+        }
         this.game.load.image("background", "images/background.jpg");
-        this.game.load.image("box", "images/box.jpg");
+        //this.game.load.image("box", "images/box.jpg");
+        this.game.load.image("box", images[0]);
     };
     return PhaserGame;
 })();
