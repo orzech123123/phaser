@@ -49,49 +49,48 @@ class PhaserGame {
         group.inputEnableChildren = true;
 
         var screenRectangle = new Phaser.Rectangle(0, 0, window.screen.width, window.screen.height);
-        for (let i = 0; i < 3; i++) {
-            var added = false;
-            while (!added) {
-                var addFailed = false;
-                var sprite : Phaser.Sprite = group.create(this.game.rnd.integerInRange(0, window.screen.width), this.game.rnd.integerInRange(0, window.screen.height), "box");
-                sprite.inputEnabled = true;
-                sprite.input.enableDrag();
-                sprite.input.boundsRect = screenRectangle;
+        var test: Phaser.Sprite = group.create(0, 0, "box");
+        var testTargetWidth = window.screen.width / 10;
+        var scale = testTargetWidth / test.width;
+        test.scale.setTo(scale, scale);
 
-                var children = group.children as Array<Phaser.Sprite>;
-                for (let j in children) {
-                    var child = children[j];
-                    if (child === sprite)
-                        continue;
-                        
-                    var childRectangle = new Phaser.Rectangle(child.x, child.y, child.width, child.height);
-                    var spriteRectangle = new Phaser.Rectangle(sprite.x, sprite.y, child.width, child.height);
-                    
-                    if (Phaser.Rectangle.intersects(childRectangle, spriteRectangle)) {
-                        console.log("AddFail: intersects");
-                        group.remove(sprite, true);
-                        addFailed = true;
-                        break;
-                    }
-                        
-                    if (!screenRectangle.containsRect(spriteRectangle)) {
-                        console.log("AddFail: !containsRect");
-                        group.remove(sprite, true);
-                        addFailed = true;
-                        break;
-                    }
+        var rectangles = new Array<Phaser.Rectangle>();
+        while (rectangles.length < 10) {
+            let newRectangle = new Phaser.Rectangle(this.game.rnd.integerInRange(0, window.screen.width), this.game.rnd.integerInRange(0, window.screen.height), test.width, test.height);
+
+            var add = true;
+            for (let i in rectangles) {
+                let rectangle = rectangles[i];
+                if (Phaser.Rectangle.intersects(rectangle, newRectangle)) {
+                    add = false;
+                    break;
                 }
 
-                if (!addFailed)
-                    added = true;
+                if (!screenRectangle.containsRect(newRectangle)) {
+                    add = false;
+                    break;
+                }
             }
+
+            if (add)
+                rectangles.push(newRectangle);
         }
 
+        group.remove(test, true);
+
+        for (let i in rectangles) {
+            let rectangle = rectangles[i];
+            let sprite: Phaser.Sprite = group.create(rectangle.x, rectangle.y, "box");
+            sprite.inputEnabled = true;
+            sprite.input.enableDrag();
+            sprite.input.boundsRect = screenRectangle;
+            sprite.scale.setTo(scale, scale);
+        }
+         
 //        sonic.events.onDragStart.add(() => { this.onDragStart(); }, this);
 //        sonic.events.onDragStop.add(() => { this.onDragStop(); }, this);
 //
 //        group.onChildInputDown.add(() => { this.onDown(); }, this);
-
 
         //var musicFile = new Media("http://translate.google.com/translate_tts?ie=UTF-8&total=1&idx=0&textlen=32&client=tw-ob&q=%C5%BBryj%20o%C5%82%C3%B3w%20suko&tl=Pl-pl", null, null);
         var musicFile = new Media("file:///android_asset/www/audio/theme.mp3", null, null);

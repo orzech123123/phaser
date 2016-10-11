@@ -16,35 +16,36 @@ var PhaserGame = (function () {
             var group = _this.game.add.group();
             group.inputEnableChildren = true;
             var screenRectangle = new Phaser.Rectangle(0, 0, window.screen.width, window.screen.height);
-            for (var i = 0; i < 3; i++) {
-                var added = false;
-                while (!added) {
-                    var addFailed = false;
-                    var sprite = group.create(_this.game.rnd.integerInRange(0, window.screen.width), _this.game.rnd.integerInRange(0, window.screen.height), "box");
-                    sprite.inputEnabled = true;
-                    sprite.input.enableDrag();
-                    sprite.input.boundsRect = screenRectangle;
-                    var children = group.children;
-                    for (var j in children) {
-                        var child = children[j];
-                        if (child === sprite)
-                            continue;
-                        var childRectangle = new Phaser.Rectangle(child.x, child.y, child.width, child.height);
-                        var spriteRectangle = new Phaser.Rectangle(sprite.x, sprite.y, child.width, child.height);
-                        if (Phaser.Rectangle.intersects(childRectangle, spriteRectangle)) {
-                            group.remove(sprite, true);
-                            addFailed = true;
-                            break;
-                        }
-                        if (!screenRectangle.containsRect(spriteRectangle)) {
-                            group.remove(sprite, true);
-                            addFailed = true;
-                            break;
-                        }
+            var test = group.create(0, 0, "box");
+            var testTargetWidth = window.screen.width / 10;
+            var scale = testTargetWidth / test.width;
+            test.scale.setTo(scale, scale);
+            var rectangles = new Array();
+            while (rectangles.length < 10) {
+                var newRectangle = new Phaser.Rectangle(_this.game.rnd.integerInRange(0, window.screen.width), _this.game.rnd.integerInRange(0, window.screen.height), test.width, test.height);
+                var add = true;
+                for (var i in rectangles) {
+                    var rectangle = rectangles[i];
+                    if (Phaser.Rectangle.intersects(rectangle, newRectangle)) {
+                        add = false;
+                        break;
                     }
-                    if (!addFailed)
-                        added = true;
+                    if (!screenRectangle.containsRect(newRectangle)) {
+                        add = false;
+                        break;
+                    }
                 }
+                if (add)
+                    rectangles.push(newRectangle);
+            }
+            group.remove(test, true);
+            for (var i in rectangles) {
+                var rectangle = rectangles[i];
+                var sprite = group.create(rectangle.x, rectangle.y, "box");
+                sprite.inputEnabled = true;
+                sprite.input.enableDrag();
+                sprite.input.boundsRect = screenRectangle;
+                sprite.scale.setTo(scale, scale);
             }
             //        sonic.events.onDragStart.add(() => { this.onDragStart(); }, this);
             //        sonic.events.onDragStop.add(() => { this.onDragStop(); }, this);
@@ -64,7 +65,6 @@ var PhaserGame = (function () {
         this.render = function () {
         };
         this.update = function () {
-            console.log("ghfgh");
         };
         this.game = new Phaser.Game(window.screen.width, window.screen.height, Phaser.AUTO, "content", { preload: function () { _this.preload(); }, create: function () { _this.create(); }, update: function () { _this.update(); }, render: function () { _this.render(); } });
     }
