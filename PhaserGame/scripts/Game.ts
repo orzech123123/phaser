@@ -44,18 +44,54 @@ class PhaserGame {
         this.background = new MySprite(this.game.add.sprite(0, 0, "background"));
         this.background.object.inputEnabled = true;
         this.background.object.scale.setTo(window.screen.width / this.background.object.width, window.screen.height / this.background.object.height);
-            
-        this.game.physics.startSystem(Phaser.Physics.ARCADE);
 
-        this.boxSprite = this.game.add.sprite(200, 200, "box");
-        this.boxSprite.anchor.setTo(0.5, 0.5);
-        this.boxSprite.scale.set(0.5, 0.5);
+        var group = this.game.add.group();
+        group.inputEnableChildren = true;
 
-        //  Enable Arcade Physics for the sprite
-        this.game.physics.enable(this.boxSprite, Phaser.Physics.ARCADE);
+        var screenRectangle = new Phaser.Rectangle(0, 0, window.screen.width, window.screen.height);
+        for (let i = 0; i < 3; i++) {
+            var added = false;
+            while (!added) {
+                var addFailed = false;
+                var sprite : Phaser.Sprite = group.create(this.game.rnd.integerInRange(0, window.screen.width), this.game.rnd.integerInRange(0, window.screen.height), "box");
+                sprite.inputEnabled = true;
+                sprite.input.enableDrag();
+                sprite.input.boundsRect = screenRectangle;
 
-        //  Tell it we don't want physics to manage the rotation
-        this.boxSprite.body.allowRotation = false;
+                var children = group.children as Array<Phaser.Sprite>;
+                for (let j in children) {
+                    var child = children[j];
+                    if (child === sprite)
+                        continue;
+                        
+                    var childRectangle = new Phaser.Rectangle(child.x, child.y, child.width, child.height);
+                    var spriteRectangle = new Phaser.Rectangle(sprite.x, sprite.y, child.width, child.height);
+                    
+                    if (Phaser.Rectangle.intersects(childRectangle, spriteRectangle)) {
+                        console.log("AddFail: intersects");
+                        group.remove(sprite, true);
+                        addFailed = true;
+                        break;
+                    }
+                        
+                    if (!screenRectangle.containsRect(spriteRectangle)) {
+                        console.log("AddFail: !containsRect");
+                        group.remove(sprite, true);
+                        addFailed = true;
+                        break;
+                    }
+                }
+
+                if (!addFailed)
+                    added = true;
+            }
+        }
+
+//        sonic.events.onDragStart.add(() => { this.onDragStart(); }, this);
+//        sonic.events.onDragStop.add(() => { this.onDragStop(); }, this);
+//
+//        group.onChildInputDown.add(() => { this.onDown(); }, this);
+
 
         //var musicFile = new Media("http://translate.google.com/translate_tts?ie=UTF-8&total=1&idx=0&textlen=32&client=tw-ob&q=%C5%BBryj%20o%C5%82%C3%B3w%20suko&tl=Pl-pl", null, null);
         var musicFile = new Media("file:///android_asset/www/audio/theme.mp3", null, null);
@@ -72,10 +108,8 @@ class PhaserGame {
     }
 
     render = () => {
-        //this.game.debug.spriteInfo(this.boxSprite, 32, 32);
     }
     
     update = () => {
-        this.boxSprite.rotation = this.game.physics.arcade.moveToPointer(this.boxSprite, 60, this.game.input.activePointer, 500);
     }
 }

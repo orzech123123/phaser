@@ -4,7 +4,7 @@
 // and then run "window.location.reload()" in the JavaScript Console.
 
 
-/// <reference path="Game2.ts" />
+/// <reference path="Game.ts" />
 module PhaserGame33 {
     "use strict";
 
