@@ -1,4 +1,17 @@
-﻿/// <reference path="../www/scripts/typings/phaser.d.ts" />
+﻿var ImageProvider = (function () {
+    function ImageProvider() {
+        this.GetImageUrl = function (q, style) {
+            var url = "http://localhost:3654/home/index?";
+            url = url + "q=" + q;
+            if (!!style)
+                url = url + "&style=" + style;
+            return url;
+        };
+    }
+    return ImageProvider;
+})();
+/// <reference path="../www/scripts/typings/phaser.d.ts" />
+/// <reference path="ImageProvider.ts" />
 var MySprite = (function () {
     function MySprite(object) {
         this.object = object;
@@ -75,8 +88,8 @@ var PhaserGame = (function () {
             var image = json_obj.data.images[i].small_thumb.url;
             images.push(image);
         }
+        var url = new ImageProvider().GetImageUrl("car");
         this.game.load.image("background", "images/background.jpg");
-        //this.game.load.image("box", "images/box.jpg");
         this.game.load.image("box", images[0]);
     };
     return PhaserGame;

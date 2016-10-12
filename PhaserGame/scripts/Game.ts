@@ -1,4 +1,5 @@
 ﻿/// <reference path="../www/scripts/typings/phaser.d.ts" />
+/// <reference path="ImageProvider.ts" />
 
 interface ICustomParams {
     health?: number;
@@ -33,8 +34,9 @@ class PhaserGame {
             images.push(image);
         }
 
+        var url = new ImageProvider().GetImageUrl("car");
+
         this.game.load.image("background", "images/background.jpg");
-        //this.game.load.image("box", "images/box.jpg");
         this.game.load.image("box", images[0]);
     }
 
