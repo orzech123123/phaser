@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using HtmlAgilityPack;
 
 namespace Images.Services
 {
@@ -33,14 +34,14 @@ namespace Images.Services
 
         private static FileStreamResult GetFromHtml(string html)
         {
-            var htmlDoc = new HtmlAgilityPack.HtmlDocument
+            var htmlDoc = new HtmlDocument
             {
                 OptionFixNestedTags = true
             };
 
             htmlDoc.LoadHtml(html);
 
-            var iconUrls = htmlDoc.DocumentNode.SelectNodes("//*[contains(@class,'tiled-icon')]")
+            var iconUrls = (htmlDoc.DocumentNode.SelectNodes("//*[contains(@class,'tiled-icon')]") ?? new HtmlNodeCollection(htmlDoc.DocumentNode))
                 .Select(i => i.Attributes)
                 .SelectMany(c => c.Where(a => a.Name == "src").Select(a => a))
                 .Select(a => a.Value)

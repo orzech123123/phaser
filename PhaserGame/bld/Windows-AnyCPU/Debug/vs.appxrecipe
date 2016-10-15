@@ -22,244 +22,244 @@
     <AppXManifest Include="D:\p\phaser\PhaserGame\platforms\windows\build\windows\debug\anycpu\win8.1\AppxManifest.xml">
       <PackagePath>AppxManifest.xml</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2016-10-12T19:28:39.842</Modified>
+      <Modified>2016-10-15T12:14:38.730</Modified>
     </AppXManifest>
   </ItemGroup>
   <ItemGroup>
     <AppxPackagedFile Include="D:\p\phaser\PhaserGame\platforms\windows\images\SplashScreen.scale-100.png">
       <PackagePath>images\SplashScreen.scale-100.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2016-10-12T19:28:38.249</Modified>
+      <Modified>2016-10-15T12:14:37.094</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\p\phaser\PhaserGame\platforms\windows\images\Square150x150Logo.scale-100.png">
       <PackagePath>images\Square150x150Logo.scale-100.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2016-10-12T19:28:38.213</Modified>
+      <Modified>2016-10-15T12:14:37.059</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\p\phaser\PhaserGame\platforms\windows\images\Square30x30Logo.scale-100.png">
       <PackagePath>images\Square30x30Logo.scale-100.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2016-10-12T19:28:38.223</Modified>
+      <Modified>2016-10-15T12:14:37.064</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\p\phaser\PhaserGame\platforms\windows\images\Square310x310Logo.scale-100.png">
       <PackagePath>images\Square310x310Logo.scale-100.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2016-10-12T19:28:38.226</Modified>
+      <Modified>2016-10-15T12:14:37.066</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\p\phaser\PhaserGame\platforms\windows\images\Square44x44Logo.scale-100.png">
       <PackagePath>images\Square44x44Logo.scale-100.png</PackagePath>
-      <Modified>2016-10-12T19:28:38.228</Modified>
+      <Modified>2016-10-15T12:14:37.068</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\p\phaser\PhaserGame\platforms\windows\images\Square70x70Logo.scale-100.png">
       <PackagePath>images\Square70x70Logo.scale-100.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2016-10-12T19:28:38.233</Modified>
+      <Modified>2016-10-15T12:14:37.074</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\p\phaser\PhaserGame\platforms\windows\images\Square71x71Logo.scale-100.png">
       <PackagePath>images\Square71x71Logo.scale-100.png</PackagePath>
-      <Modified>2016-10-12T19:28:38.236</Modified>
+      <Modified>2016-10-15T12:14:37.078</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\p\phaser\PhaserGame\platforms\windows\images\StoreLogo.scale-100.png">
       <PackagePath>images\StoreLogo.scale-100.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2016-10-12T19:28:38.240</Modified>
+      <Modified>2016-10-15T12:14:37.084</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\p\phaser\PhaserGame\platforms\windows\images\Wide310x150Logo.scale-100.png">
       <PackagePath>images\Wide310x150Logo.scale-100.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2016-10-12T19:28:38.244</Modified>
+      <Modified>2016-10-15T12:14:37.089</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\p\phaser\PhaserGame\platforms\windows\www\images\arrow.png">
       <PackagePath>www\images\arrow.png</PackagePath>
-      <Modified>2016-10-12T19:28:37.261</Modified>
+      <Modified>2016-10-15T12:14:36.103</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\p\phaser\PhaserGame\platforms\windows\www\images\cordova.png">
       <PackagePath>www\images\cordova.png</PackagePath>
-      <Modified>2016-10-12T19:28:37.279</Modified>
+      <Modified>2016-10-15T12:14:36.126</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\p\phaser\PhaserGame\platforms\windows\www\images\phaser2.png">
       <PackagePath>www\images\phaser2.png</PackagePath>
-      <Modified>2016-10-12T19:28:37.281</Modified>
+      <Modified>2016-10-15T12:14:36.129</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\p\phaser\PhaserGame\platforms\windows\www\images\platform.png">
       <PackagePath>www\images\platform.png</PackagePath>
-      <Modified>2016-10-12T19:28:37.284</Modified>
+      <Modified>2016-10-15T12:14:36.131</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\p\phaser\PhaserGame\platforms\windows\www\audio\theme.mp3">
       <PackagePath>www\audio\theme.mp3</PackagePath>
-      <Modified>2016-10-12T19:28:37.255</Modified>
+      <Modified>2016-10-15T12:14:36.096</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\p\phaser\PhaserGame\platforms\windows\www\cordova-js-src\exec.js">
       <PackagePath>www\cordova-js-src\exec.js</PackagePath>
-      <Modified>2016-10-12T19:28:38.573</Modified>
+      <Modified>2016-10-15T12:14:37.425</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\p\phaser\PhaserGame\platforms\windows\www\cordova-js-src\platform.js">
       <PackagePath>www\cordova-js-src\platform.js</PackagePath>
-      <Modified>2016-10-12T19:28:38.574</Modified>
+      <Modified>2016-10-15T12:14:37.426</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\p\phaser\PhaserGame\platforms\windows\www\cordova.js">
       <PackagePath>www\cordova.js</PackagePath>
-      <Modified>2016-10-12T19:28:37.591</Modified>
+      <Modified>2016-10-15T12:14:36.445</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\p\phaser\PhaserGame\platforms\windows\www\cordova_plugins.js">
       <PackagePath>www\cordova_plugins.js</PackagePath>
-      <Modified>2016-10-12T19:28:38.576</Modified>
+      <Modified>2016-10-15T12:14:37.428</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\p\phaser\PhaserGame\platforms\windows\www\plugins\cordova-plugin-file\src\windows\FileProxy.js">
       <PackagePath>www\plugins\cordova-plugin-file\src\windows\FileProxy.js</PackagePath>
-      <Modified>2016-10-12T19:28:38.628</Modified>
+      <Modified>2016-10-15T12:14:37.484</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\p\phaser\PhaserGame\platforms\windows\www\plugins\cordova-plugin-file\www\browser\isChrome.js">
       <PackagePath>www\plugins\cordova-plugin-file\www\browser\isChrome.js</PackagePath>
-      <Modified>2016-10-12T19:28:38.629</Modified>
+      <Modified>2016-10-15T12:14:37.485</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\p\phaser\PhaserGame\platforms\windows\www\plugins\cordova-plugin-file\www\DirectoryEntry.js">
       <PackagePath>www\plugins\cordova-plugin-file\www\DirectoryEntry.js</PackagePath>
-      <Modified>2016-10-12T19:28:38.631</Modified>
+      <Modified>2016-10-15T12:14:37.487</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\p\phaser\PhaserGame\platforms\windows\www\plugins\cordova-plugin-file\www\DirectoryReader.js">
       <PackagePath>www\plugins\cordova-plugin-file\www\DirectoryReader.js</PackagePath>
-      <Modified>2016-10-12T19:28:38.632</Modified>
+      <Modified>2016-10-15T12:14:37.488</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\p\phaser\PhaserGame\platforms\windows\www\plugins\cordova-plugin-file\www\Entry.js">
       <PackagePath>www\plugins\cordova-plugin-file\www\Entry.js</PackagePath>
-      <Modified>2016-10-12T19:28:38.675</Modified>
+      <Modified>2016-10-15T12:14:37.530</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\p\phaser\PhaserGame\platforms\windows\www\plugins\cordova-plugin-file\www\File.js">
       <PackagePath>www\plugins\cordova-plugin-file\www\File.js</PackagePath>
-      <Modified>2016-10-12T19:28:38.676</Modified>
+      <Modified>2016-10-15T12:14:37.531</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\p\phaser\PhaserGame\platforms\windows\www\plugins\cordova-plugin-file\www\FileEntry.js">
       <PackagePath>www\plugins\cordova-plugin-file\www\FileEntry.js</PackagePath>
-      <Modified>2016-10-12T19:28:38.678</Modified>
+      <Modified>2016-10-15T12:14:37.533</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\p\phaser\PhaserGame\platforms\windows\www\plugins\cordova-plugin-file\www\FileError.js">
       <PackagePath>www\plugins\cordova-plugin-file\www\FileError.js</PackagePath>
-      <Modified>2016-10-12T19:28:38.679</Modified>
+      <Modified>2016-10-15T12:14:37.543</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\p\phaser\PhaserGame\platforms\windows\www\plugins\cordova-plugin-file\www\FileReader.js">
       <PackagePath>www\plugins\cordova-plugin-file\www\FileReader.js</PackagePath>
-      <Modified>2016-10-12T19:28:38.724</Modified>
+      <Modified>2016-10-15T12:14:37.588</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\p\phaser\PhaserGame\platforms\windows\www\plugins\cordova-plugin-file\www\FileSystem.js">
       <PackagePath>www\plugins\cordova-plugin-file\www\FileSystem.js</PackagePath>
-      <Modified>2016-10-12T19:28:38.726</Modified>
+      <Modified>2016-10-15T12:14:37.589</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\p\phaser\PhaserGame\platforms\windows\www\plugins\cordova-plugin-file\www\fileSystemPaths.js">
       <PackagePath>www\plugins\cordova-plugin-file\www\fileSystemPaths.js</PackagePath>
-      <Modified>2016-10-12T19:28:38.727</Modified>
+      <Modified>2016-10-15T12:14:37.590</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\p\phaser\PhaserGame\platforms\windows\www\plugins\cordova-plugin-file\www\fileSystems.js">
       <PackagePath>www\plugins\cordova-plugin-file\www\fileSystems.js</PackagePath>
-      <Modified>2016-10-12T19:28:38.728</Modified>
+      <Modified>2016-10-15T12:14:37.592</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\p\phaser\PhaserGame\platforms\windows\www\plugins\cordova-plugin-file\www\FileUploadOptions.js">
       <PackagePath>www\plugins\cordova-plugin-file\www\FileUploadOptions.js</PackagePath>
-      <Modified>2016-10-12T19:28:38.729</Modified>
+      <Modified>2016-10-15T12:14:37.593</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\p\phaser\PhaserGame\platforms\windows\www\plugins\cordova-plugin-file\www\FileUploadResult.js">
       <PackagePath>www\plugins\cordova-plugin-file\www\FileUploadResult.js</PackagePath>
-      <Modified>2016-10-12T19:28:38.731</Modified>
+      <Modified>2016-10-15T12:14:37.595</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\p\phaser\PhaserGame\platforms\windows\www\plugins\cordova-plugin-file\www\FileWriter.js">
       <PackagePath>www\plugins\cordova-plugin-file\www\FileWriter.js</PackagePath>
-      <Modified>2016-10-12T19:28:38.774</Modified>
+      <Modified>2016-10-15T12:14:37.638</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\p\phaser\PhaserGame\platforms\windows\www\plugins\cordova-plugin-file\www\Flags.js">
       <PackagePath>www\plugins\cordova-plugin-file\www\Flags.js</PackagePath>
-      <Modified>2016-10-12T19:28:38.775</Modified>
+      <Modified>2016-10-15T12:14:37.639</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\p\phaser\PhaserGame\platforms\windows\www\plugins\cordova-plugin-file\www\LocalFileSystem.js">
       <PackagePath>www\plugins\cordova-plugin-file\www\LocalFileSystem.js</PackagePath>
-      <Modified>2016-10-12T19:28:38.777</Modified>
+      <Modified>2016-10-15T12:14:37.642</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\p\phaser\PhaserGame\platforms\windows\www\plugins\cordova-plugin-file\www\Metadata.js">
       <PackagePath>www\plugins\cordova-plugin-file\www\Metadata.js</PackagePath>
-      <Modified>2016-10-12T19:28:38.778</Modified>
+      <Modified>2016-10-15T12:14:37.644</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\p\phaser\PhaserGame\platforms\windows\www\plugins\cordova-plugin-file\www\ProgressEvent.js">
       <PackagePath>www\plugins\cordova-plugin-file\www\ProgressEvent.js</PackagePath>
-      <Modified>2016-10-12T19:28:38.779</Modified>
+      <Modified>2016-10-15T12:14:37.645</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\p\phaser\PhaserGame\platforms\windows\www\plugins\cordova-plugin-file\www\requestFileSystem.js">
       <PackagePath>www\plugins\cordova-plugin-file\www\requestFileSystem.js</PackagePath>
-      <Modified>2016-10-12T19:28:38.781</Modified>
+      <Modified>2016-10-15T12:14:37.647</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\p\phaser\PhaserGame\platforms\windows\www\plugins\cordova-plugin-file\www\resolveLocalFileSystemURI.js">
       <PackagePath>www\plugins\cordova-plugin-file\www\resolveLocalFileSystemURI.js</PackagePath>
-      <Modified>2016-10-12T19:28:38.783</Modified>
+      <Modified>2016-10-15T12:14:37.648</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\p\phaser\PhaserGame\platforms\windows\www\plugins\cordova-plugin-media\src\windows\MediaProxy.js">
       <PackagePath>www\plugins\cordova-plugin-media\src\windows\MediaProxy.js</PackagePath>
-      <Modified>2016-10-12T19:28:38.830</Modified>
+      <Modified>2016-10-15T12:14:37.685</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\p\phaser\PhaserGame\platforms\windows\www\plugins\cordova-plugin-media\www\Media.js">
       <PackagePath>www\plugins\cordova-plugin-media\www\Media.js</PackagePath>
-      <Modified>2016-10-12T19:28:38.832</Modified>
+      <Modified>2016-10-15T12:14:37.687</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\p\phaser\PhaserGame\platforms\windows\www\plugins\cordova-plugin-media\www\MediaError.js">
       <PackagePath>www\plugins\cordova-plugin-media\www\MediaError.js</PackagePath>
-      <Modified>2016-10-12T19:28:38.833</Modified>
+      <Modified>2016-10-15T12:14:37.688</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\p\phaser\PhaserGame\platforms\windows\www\scripts\appBundle.js">
       <PackagePath>www\scripts\appBundle.js</PackagePath>
-      <Modified>2016-10-12T19:28:38.835</Modified>
+      <Modified>2016-10-15T12:14:37.735</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\p\phaser\PhaserGame\platforms\windows\www\scripts\js\phaser.js">
       <PackagePath>www\scripts\js\phaser.js</PackagePath>
-      <Modified>2016-10-12T19:28:39.086</Modified>
+      <Modified>2016-10-15T12:14:37.982</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\p\phaser\PhaserGame\platforms\windows\www\scripts\platformOverrides.js">
       <PackagePath>www\scripts\platformOverrides.js</PackagePath>
-      <Modified>2016-10-12T19:28:38.117</Modified>
+      <Modified>2016-10-15T12:14:36.959</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\p\phaser\PhaserGame\platforms\windows\www\scripts\winstore-jscompat.js">
       <PackagePath>www\scripts\winstore-jscompat.js</PackagePath>
-      <Modified>2016-10-12T19:28:38.118</Modified>
+      <Modified>2016-10-15T12:14:36.961</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\p\phaser\PhaserGame\platforms\windows\www\WinJS\js\base.js">
       <PackagePath>www\WinJS\js\base.js</PackagePath>
-      <Modified>2016-10-12T19:28:38.112</Modified>
+      <Modified>2016-10-15T12:14:36.956</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\p\phaser\PhaserGame\platforms\windows\www\css\index.css">
       <PackagePath>www\css\index.css</PackagePath>
-      <Modified>2016-10-12T19:28:37.258</Modified>
+      <Modified>2016-10-15T12:14:36.100</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\p\phaser\PhaserGame\platforms\windows\www\images\background.jpg">
       <PackagePath>www\images\background.jpg</PackagePath>
-      <Modified>2016-10-12T19:28:37.270</Modified>
+      <Modified>2016-10-15T12:14:36.114</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\p\phaser\PhaserGame\platforms\windows\www\images\box.jpg">
       <PackagePath>www\images\box.jpg</PackagePath>
-      <Modified>2016-10-12T19:28:37.276</Modified>
+      <Modified>2016-10-15T12:14:36.124</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\p\phaser\PhaserGame\platforms\windows\www\index.html">
       <PackagePath>www\index.html</PackagePath>
-      <Modified>2016-10-12T19:28:37.288</Modified>
+      <Modified>2016-10-15T12:14:36.135</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\p\phaser\PhaserGame\platforms\windows\www\scripts\appBundle.js.map">
       <PackagePath>www\scripts\appBundle.js.map</PackagePath>
-      <Modified>2016-10-12T19:28:37.302</Modified>
+      <Modified>2016-10-15T12:14:36.171</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\p\phaser\PhaserGame\platforms\windows\www\scripts\typings\p2.d.ts">
       <PackagePath>www\scripts\typings\p2.d.ts</PackagePath>
-      <Modified>2016-10-12T19:28:37.513</Modified>
+      <Modified>2016-10-15T12:14:36.367</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\p\phaser\PhaserGame\platforms\windows\www\scripts\typings\phaser.d.ts">
       <PackagePath>www\scripts\typings\phaser.d.ts</PackagePath>
-      <Modified>2016-10-12T19:28:37.529</Modified>
+      <Modified>2016-10-15T12:14:36.382</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\p\phaser\PhaserGame\platforms\windows\www\scripts\typings\pixi.d.ts">
       <PackagePath>www\scripts\typings\pixi.d.ts</PackagePath>
-      <Modified>2016-10-12T19:28:37.538</Modified>
+      <Modified>2016-10-15T12:14:36.392</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\p\phaser\PhaserGame\platforms\windows\config.xml">
       <PackagePath>config.xml</PackagePath>
-      <Modified>2016-10-12T19:28:37.213</Modified>
+      <Modified>2016-10-15T12:14:36.052</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\p\phaser\PhaserGame\platforms\windows\build\windows\debug\anycpu\win8.1\resources.pri">
       <PackagePath>resources.pri</PackagePath>
-      <Modified>2016-10-12T19:28:39.683</Modified>
+      <Modified>2016-10-15T12:14:38.543</Modified>
     </AppxPackagedFile>
   </ItemGroup>
   <ItemGroup>

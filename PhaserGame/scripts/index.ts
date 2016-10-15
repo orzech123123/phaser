@@ -5,11 +5,10 @@
 
 
 /// <reference path="Game.ts" />
-module PhaserGame33 {
+module Application {
     "use strict";
 
     class Application {
-
         public initialize = () => {
             document.addEventListener('deviceready', this.onDeviceReady, false);
         }
