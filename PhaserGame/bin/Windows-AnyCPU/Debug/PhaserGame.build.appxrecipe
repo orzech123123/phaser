@@ -58,14 +58,23 @@
     <AppxPackagedFile Include="D:\p\phaser\PhaserGame\platforms\windows\www\images\cordova.png">
       <PackagePath>www\images\cordova.png</PackagePath>
     </AppxPackagedFile>
+    <AppxPackagedFile Include="D:\p\phaser\PhaserGame\platforms\windows\www\images\jajo.png">
+      <PackagePath>www\images\jajo.png</PackagePath>
+    </AppxPackagedFile>
     <AppxPackagedFile Include="D:\p\phaser\PhaserGame\platforms\windows\www\images\phaser2.png">
       <PackagePath>www\images\phaser2.png</PackagePath>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\p\phaser\PhaserGame\platforms\windows\www\images\platform.png">
       <PackagePath>www\images\platform.png</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="D:\p\phaser\PhaserGame\platforms\windows\www\audio\theme.mp3">
-      <PackagePath>www\audio\theme.mp3</PackagePath>
+    <AppxPackagedFile Include="D:\p\phaser\PhaserGame\platforms\windows\www\images\start.png">
+      <PackagePath>www\images\start.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="D:\p\phaser\PhaserGame\platforms\windows\www\audio\agibagi.mp3">
+      <PackagePath>www\audio\agibagi.mp3</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="D:\p\phaser\PhaserGame\platforms\windows\www\audio\rainbowsix.mp3">
+      <PackagePath>www\audio\rainbowsix.mp3</PackagePath>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\p\phaser\PhaserGame\platforms\windows\www\cordova-js-src\exec.js">
       <PackagePath>www\cordova-js-src\exec.js</PackagePath>
@@ -169,6 +178,9 @@
     <AppxPackagedFile Include="D:\p\phaser\PhaserGame\platforms\windows\www\css\index.css">
       <PackagePath>www\css\index.css</PackagePath>
     </AppxPackagedFile>
+    <AppxPackagedFile Include="D:\p\phaser\PhaserGame\platforms\windows\www\images\agibagi.jpg">
+      <PackagePath>www\images\agibagi.jpg</PackagePath>
+    </AppxPackagedFile>
     <AppxPackagedFile Include="D:\p\phaser\PhaserGame\platforms\windows\www\images\background.jpg">
       <PackagePath>www\images\background.jpg</PackagePath>
     </AppxPackagedFile>
@@ -189,6 +201,9 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\p\phaser\PhaserGame\platforms\windows\www\scripts\typings\pixi.d.ts">
       <PackagePath>www\scripts\typings\pixi.d.ts</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="D:\p\phaser\PhaserGame\platforms\windows\www\video\agibagi.mp4">
+      <PackagePath>www\video\agibagi.mp4</PackagePath>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\p\phaser\PhaserGame\platforms\windows\config.xml">
       <PackagePath>config.xml</PackagePath>

@@ -8,13 +8,14 @@ class PhaserGame {
     private menu: Menu;
 
     private background: Phaser.Sprite;
-    private group : Phaser.Group;
+    private group: Phaser.Group;
+    private emitter: Phaser.Particles.Arcade.Emitter;
 
     constructor() {
         this.imageProvider = new ImageProvider();
         this.menu = new Menu(this);
 
-        this.phaser = new Phaser.Game(ScreenHelper.GetScreenWidth(), ScreenHelper.GetScreenHeight(), Phaser.AUTO, "content", { preload: () => { this.preload(); }, create: () => { this.create(); }, update: () => { this.update(); }, render: () => { this.render(); } });
+        this.phaser = new Phaser.Game(ScreenHelper.GetScreenWidth(), ScreenHelper.GetScreenHeight(), Phaser.AUTO, "content", { preload: () => { this.preload(); }, create: () => { this.create(); }, update: () => { this.update(); }, render: () => { this.render(); } }, null, true, null);
     }
     
     public Start() {
@@ -64,9 +65,10 @@ class PhaserGame {
     
     preload = () => {
         this.phaser.load.image("background", "images/background.jpg");
-        this.menu.Preload();
-
         this.phaser.load.image("sprite", this.imageProvider.GetImageUrl("dog"));
+        this.phaser.load.image("jajo", "images/jajo.png");
+
+        this.menu.Preload();
     }
 
     create = () => {
@@ -76,6 +78,13 @@ class PhaserGame {
         this.background.inputEnabled = true;
         this.background.scale.setTo(ScreenHelper.GetScreenWidth() / this.background.width, ScreenHelper.GetScreenHeight() / this.background.height);
         
+        this.phaser.physics.startSystem(Phaser.Physics.ARCADE);
+        this.emitter = this.phaser.add.emitter(0, 0, 100);
+        this.emitter.makeParticles("jajo");
+        this.emitter.gravity = 200;
+        this.emitter.minParticleScale = 0.05; 
+        this.emitter.maxParticleScale = 0.1; 
+        this.phaser.input.onDown.add((pointer) => { this.emit(pointer); }, this.phaser);
 
         this.menu.Create();
 
@@ -86,6 +95,18 @@ class PhaserGame {
         musicFile.play();
         
         this.menu.Show();
+    }
+
+    private emit = (pointer) => {
+        //  Position the emitter where the mouse/touch event was
+        this.emitter.x = pointer.x;
+        this.emitter.y = pointer.y;
+
+        //  The first parameter sets the effect to "explode" which means all particles are emitted at once
+        //  The second gives each particle a 2000ms lifespan
+        //  The third is ignored when using burst/explode mode
+        //  The final parameter (10) is how many particles will be emitted in this single burst
+        this.emitter.start(false, 2000, null, 10);
     }
 
     render = () => {

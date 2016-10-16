@@ -37,20 +37,38 @@ var PhaserGame = (function () {
         var _this = this;
         this.preload = function () {
             _this.phaser.load.image("background", "images/background.jpg");
-            _this.menu.Preload();
             _this.phaser.load.image("sprite", _this.imageProvider.GetImageUrl("dog"));
+            _this.phaser.load.image("jajo", "images/jajo.png");
+            _this.menu.Preload();
         };
         this.create = function () {
             _this.phaser.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
             _this.background = _this.phaser.add.sprite(0, 0, "background");
             _this.background.inputEnabled = true;
             _this.background.scale.setTo(ScreenHelper.GetScreenWidth() / _this.background.width, ScreenHelper.GetScreenHeight() / _this.background.height);
+            _this.phaser.physics.startSystem(Phaser.Physics.ARCADE);
+            _this.emitter = _this.phaser.add.emitter(0, 0, 100);
+            _this.emitter.makeParticles("jajo");
+            _this.emitter.gravity = 200;
+            _this.emitter.minParticleScale = 0.05;
+            _this.emitter.maxParticleScale = 0.1;
+            _this.phaser.input.onDown.add(function (pointer) { _this.emit(pointer); }, _this.phaser);
             _this.menu.Create();
             //var musicFile = new Media("http://translate.google.com/translate_tts?ie=UTF-8&total=1&idx=0&textlen=32&client=tw-ob&q=%C5%BBryj%20o%C5%82%C3%B3w%20suko&tl=Pl-pl", null, null);
-            var musicFile = new Media("file:///android_asset/www/audio/theme.mp3", null, null);
+            var musicFile = new Media("file:///android_asset/www/audio/agibagi.mp3", null, null);
             //var musicFile = new Media("ms-appdata:///www/audio/theme.mp3", null, null);
             musicFile.play();
             _this.menu.Show();
+        };
+        this.emit = function (pointer) {
+            //  Position the emitter where the mouse/touch event was
+            _this.emitter.x = pointer.x;
+            _this.emitter.y = pointer.y;
+            //  The first parameter sets the effect to "explode" which means all particles are emitted at once
+            //  The second gives each particle a 2000ms lifespan
+            //  The third is ignored when using burst/explode mode
+            //  The final parameter (10) is how many particles will be emitted in this single burst
+            _this.emitter.start(false, 2000, null, 10);
         };
         this.render = function () {
         };
@@ -58,7 +76,7 @@ var PhaserGame = (function () {
         };
         this.imageProvider = new ImageProvider();
         this.menu = new Menu(this);
-        this.phaser = new Phaser.Game(ScreenHelper.GetScreenWidth(), ScreenHelper.GetScreenHeight(), Phaser.AUTO, "content", { preload: function () { _this.preload(); }, create: function () { _this.create(); }, update: function () { _this.update(); }, render: function () { _this.render(); } });
+        this.phaser = new Phaser.Game(ScreenHelper.GetScreenWidth(), ScreenHelper.GetScreenHeight(), Phaser.AUTO, "content", { preload: function () { _this.preload(); }, create: function () { _this.create(); }, update: function () { _this.update(); }, render: function () { _this.render(); } }, null, true, null);
     }
     PhaserGame.prototype.Start = function () {
         if (this.group != null)
@@ -105,11 +123,13 @@ var Menu = (function () {
         this.Show = function () {
             _this.game.phaser.paused = true;
             _this.startButton.visible = true;
+            _this.background.visible = true;
             _this.pauseText.visible = false;
         };
         this.Hide = function () {
             _this.pauseText.visible = true;
             _this.startButton.visible = false;
+            _this.background.visible = false;
             _this.game.phaser.paused = false;
         };
         this.onScreenClick = function () {
@@ -124,21 +144,33 @@ var Menu = (function () {
         this.game = game;
     }
     Menu.prototype.Preload = function () {
-        this.game.phaser.load.spritesheet("button", "http://www.clker.com/cliparts/t/2/J/p/t/d/start-button-png-hi.png", 0, 0);
+        this.game.phaser.load.spritesheet("button", "images/start.png", 0, 0);
+        this.game.phaser.load.image("menu_background", "images/agibagi.jpg");
     };
     Menu.prototype.Create = function () {
         var _this = this;
+        if (this.group != null)
+            this.group.removeAll(true);
+        this.group = this.game.phaser.add.group();
+        this.background = this.game.phaser.add.sprite(0, 0, "menu_background");
+        this.background.scale.setTo(ScreenHelper.GetScreenWidth() / this.background.width, ScreenHelper.GetScreenHeight() / this.background.height);
+        this.group.add(this.background);
         this.startButton = this.game.phaser.add.button(0, 0, "button", function () { }, this.game.phaser);
         this.startButton.visible = false;
-        ScreenHelper.ScaleByScreenWidth(this.startButton, 0.3);
-        this.startButton.centerX = ScreenHelper.GetScreenWidth() / 2;
-        this.startButton.centerY = ScreenHelper.GetScreenHeight() / 2;
+        ScreenHelper.ScaleByScreenHeight(this.startButton, 0.3);
+        this.startButton.centerX = ScreenHelper.GetScreenWidth() / 2 + (ScreenHelper.GetScreenWidth() / 4);
+        this.startButton.centerY = ScreenHelper.GetScreenHeight() / 4;
+        this.group.add(this.startButton);
         this.pauseText = this.game.phaser.add.text(0, 0, "Pause", { font: "24px Arial", fill: "#fff" });
         this.pauseText.inputEnabled = true;
         ScreenHelper.ScaleByScreenWidth(this.pauseText, 0.05);
         this.pauseText.x = ScreenHelper.GetScreenWidth() - this.pauseText.width - 10;
         this.pauseText.y += 10;
-        this.pauseText.events.onInputUp.add(function () { _this.Show(); });
+        this.group.add(this.pauseText);
+        this.pauseText.events.onInputUp.add(function () {
+            _this.Create();
+            _this.Show();
+        });
         this.game.phaser.input.onDown.add(function () { _this.onScreenClick(); }, this.game.phaser);
     };
     return Menu;
@@ -155,10 +187,16 @@ var ScreenHelper = (function () {
     ScreenHelper.ScaleByScreenWidth = function (sprite, scale) {
         if (scale < 0 || scale > 1)
             throw "ScaleByScreenWidth: ArgumentException";
-        if (sprite.width > ScreenHelper.GetScreenWidth())
-            return;
         var targetWidth = ScreenHelper.GetScreenWidth() * scale;
         var targetScale = targetWidth / sprite.width;
+        sprite.scale.x = targetScale;
+        sprite.scale.y = targetScale;
+    };
+    ScreenHelper.ScaleByScreenHeight = function (sprite, scale) {
+        if (scale < 0 || scale > 1)
+            throw "ScaleByScreenWidth: ArgumentException";
+        var targetHeight = ScreenHelper.GetScreenHeight() * scale;
+        var targetScale = targetHeight / sprite.height;
         sprite.scale.x = targetScale;
         sprite.scale.y = targetScale;
     };
