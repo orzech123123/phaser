@@ -2,3 +2,6 @@ bin
 obj
 packages
 bld
+.vs
+/PhaserGame/www/scripts/appBundle.js
+/PhaserGame/www/scripts/appBundle.js.map
