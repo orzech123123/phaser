@@ -1,15 +1,15 @@
 ﻿interface IImageProvider {
-    GetImageUrl(q: string, style?: string);
+    GetImageUrl(q: string, style?: string) : string;
 }
 
 class ImageProvider implements IImageProvider {
     public GetImageUrl = (q: string, style?: string) : string => {
-        //return this.getFromIconFinder(q, style);
+        return this.getFromIconFinder(q, style);
         return this.getFromImageStock(q);
     }
 
     private getFromIconFinder = (q: string, style?: string): string => {
-        var url = "http://localhost:3654/imageprovider/iconfinder?";
+        var url = "http://www.orzechservices.aspnet.pl/imageprovider/iconfinder?";
         url = url + "q=" + q;
         if (!!style)
             url = url + "&style=" + style;
@@ -34,6 +34,5 @@ class ImageProvider implements IImageProvider {
         httpreq.open("GET", yourUrl, false);
         httpreq.send(null);
         return httpreq.responseText;
-
     }
 }

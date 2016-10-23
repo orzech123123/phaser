@@ -9,8 +9,8 @@ module Application {
     "use strict";
 
     class Application {
-        public initialize = () => {
-            document.addEventListener('deviceready', this.onDeviceReady, false);
+        public Initialize = () => {
+            document.addEventListener("deviceready", this.onDeviceReady, false);
         }
 
         private onDeviceReady = () => {
@@ -19,5 +19,6 @@ module Application {
 
     window.onload = () => {
         var game = new PhaserGame();
+        game.Init();
     }
 }

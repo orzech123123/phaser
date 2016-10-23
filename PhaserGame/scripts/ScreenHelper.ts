@@ -26,4 +26,8 @@
         sprite.scale.x = targetScale;
         sprite.scale.y = targetScale;
     }
+
+    static GetScreenRectangle = (): Phaser.Rectangle => {
+        return new Phaser.Rectangle(0, 0, ScreenHelper.GetScreenWidth(), ScreenHelper.GetScreenHeight());
+    }
 }

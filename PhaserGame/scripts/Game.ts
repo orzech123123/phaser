@@ -1,117 +1,87 @@
 ﻿/// <reference path="../www/scripts/typings/phaser.d.ts" />
 /// <reference path="ImageProvider.ts" />
 
-
 class PhaserGame {
-    public phaser: Phaser.Game;
-    private imageProvider: IImageProvider;
+    public Phaser: Phaser.Game;
+    public PictureManager: IPictureManager;
+    public TtsManager: ITtsManager;
+    
     private menu: Menu;
-
-    private background: Phaser.Sprite;
-    private group: Phaser.Group;
-    private emitter: Phaser.Particles.Arcade.Emitter;
+    private backgroundMusic : Media;
+    private backgroundImage: Phaser.Sprite;
 
     constructor() {
-        this.imageProvider = new ImageProvider();
         this.menu = new Menu(this);
-
-        this.phaser = new Phaser.Game(ScreenHelper.GetScreenWidth(), ScreenHelper.GetScreenHeight(), Phaser.AUTO, "content", { preload: () => { this.preload(); }, create: () => { this.create(); }, update: () => { this.update(); }, render: () => { this.render(); } }, null, true, null);
+        this.PictureManager = new PictureManager(this);
+        this.TtsManager = new TtsManager(this);
     }
     
-    public Start() {
-        if (this.group != null)
-            this.group.removeAll(true);
+    public Init() : void {
+        this.Phaser = new Phaser.Game(ScreenHelper.GetScreenWidth(), ScreenHelper.GetScreenHeight(), Phaser.AUTO, "content", { preload: () => { this.Preload(); }, create: () => { this.Create(); }, update: () => { this.Update(); }, render: () => { this.Render(); } }, null, true, null);
+    }
 
-        this.group = this.phaser.add.group();
-        this.group.inputEnableChildren = true;
-
-        var screenRectangle = new Phaser.Rectangle(0, 0, ScreenHelper.GetScreenWidth(), ScreenHelper.GetScreenHeight());
-        var test: Phaser.Sprite = this.group.create(0, 0, "sprite");
-        ScreenHelper.ScaleByScreenWidth(test, 0.1);
-
-        var rectangles = new Array<Phaser.Rectangle>();
-        while (rectangles.length < 10) {
-            let newRectangle = new Phaser.Rectangle(this.phaser.rnd.integerInRange(0, ScreenHelper.GetScreenWidth()), this.phaser.rnd.integerInRange(0, ScreenHelper.GetScreenHeight()), test.width, test.height);
-
-            var add = true;
-            for (let i in rectangles) {
-                let rectangle = rectangles[i];
-                if (Phaser.Rectangle.intersects(rectangle, newRectangle)) {
-                    add = false;
-                    break;
-                }
-
-                if (!screenRectangle.containsRect(newRectangle)) {
-                    add = false;
-                    break;
-                }
-            }
-
-            if (add)
-                rectangles.push(newRectangle);
-        }
-
-        this.group.remove(test, true);
-
-        for (let i in rectangles) {
-            let rectangle = rectangles[i];
-            let sprite: Phaser.Sprite = this.group.create(rectangle.x, rectangle.y, "sprite");
-            sprite.inputEnabled = true;
-            sprite.input.enableDrag();
-            sprite.input.boundsRect = screenRectangle;
-            ScreenHelper.ScaleByScreenWidth(sprite, 0.1);
-        }
+    public Start() : void {
+        this.PictureManager.GeneratePictures(10);
     }
     
-    preload = () => {
-        this.phaser.load.image("background", "images/background.jpg");
-        this.phaser.load.image("sprite", this.imageProvider.GetImageUrl("dog"));
-        this.phaser.load.image("jajo", "images/jajo.png");
-
+    public Preload() : void {
+        this.Phaser.load.image("backgroundImage", "images/background.jpg");
+        this.backgroundMusic = new Media("file:///android_asset/www/audio/agibagi.mp3", null, null);
+        this.PictureManager.Preload();
+        this.TtsManager.Preload();
         this.menu.Preload();
     }
 
-    create = () => {
-        this.phaser.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+    public Create(): void {
+        this.Phaser.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
         
-        this.background = this.phaser.add.sprite(0, 0, "background");
-        this.background.inputEnabled = true;
-        this.background.scale.setTo(ScreenHelper.GetScreenWidth() / this.background.width, ScreenHelper.GetScreenHeight() / this.background.height);
-        
-        this.phaser.physics.startSystem(Phaser.Physics.ARCADE);
-        this.emitter = this.phaser.add.emitter(0, 0, 100);
-        this.emitter.makeParticles("jajo");
-        this.emitter.gravity = 200;
-        this.emitter.minParticleScale = 0.05; 
-        this.emitter.maxParticleScale = 0.1; 
-        this.phaser.input.onDown.add((pointer) => { this.emit(pointer); }, this.phaser);
-
+        this.createBackgroundImage();
         this.menu.Create();
-
-
-        //var musicFile = new Media("http://translate.google.com/translate_tts?ie=UTF-8&total=1&idx=0&textlen=32&client=tw-ob&q=%C5%BBryj%20o%C5%82%C3%B3w%20suko&tl=Pl-pl", null, null);
-        var musicFile = new Media("file:///android_asset/www/audio/agibagi.mp3", null, null);
-        //var musicFile = new Media("ms-appdata:///www/audio/theme.mp3", null, null);
-        musicFile.play();
         
+        this.backgroundMusic.setVolume(0.3);        
+        this.backgroundMusic.play();
+        this.backgroundMusic.setVolume(0.3);
+
         this.menu.Show();
     }
 
-    private emit = (pointer) => {
-        //  Position the emitter where the mouse/touch event was
-        this.emitter.x = pointer.x;
-        this.emitter.y = pointer.y;
-
-        //  The first parameter sets the effect to "explode" which means all particles are emitted at once
-        //  The second gives each particle a 2000ms lifespan
-        //  The third is ignored when using burst/explode mode
-        //  The final parameter (10) is how many particles will be emitted in this single burst
-        this.emitter.start(false, 2000, null, 10);
-    }
-
-    render = () => {
+    private createBackgroundImage(): void {
+        this.backgroundImage = this.Phaser.add.sprite(0, 0, "backgroundImage");
+        this.backgroundImage.inputEnabled = true;
+        this.backgroundImage.scale.setTo(ScreenHelper.GetScreenWidth() / this.backgroundImage.width, ScreenHelper.GetScreenHeight() / this.backgroundImage.height);
     }
     
-    update = () => {
+    public Render() {
     }
+    
+    public Update() {
+    }
+
+
+    
+        //var musicFile = new Media("http://translate.google.com/translate_tts?ie=UTF-8&total=1&idx=0&textlen=32&client=tw-ob&q=%C5%BBryj%20o%C5%82%C3%B3w%20suko&tl=Pl-pl", null, null);
+        //var musicFile = new Media("ms-appdata:///www/audio/theme.mp3", null, null);
+
+
+
+
+    //    private emit(pointer : Phaser.Particles.Arcade.Emitter) {
+//        //  Position the emitter where the mouse/touch event was
+//        this.emitter.x = pointer.x;
+//        this.emitter.y = pointer.y;
+
+//        //  The first parameter sets the effect to "explode" which means all particles are emitted at once
+//        //  The second gives each particle a 2000ms lifespan
+//        //  The third is ignored when using burst/explode mode
+//        //  The final parameter (10) is how many particles will be emitted in this single burst
+//        this.emitter.start(false, 2000, null, 10);
+//    }
+    
+//        this.Phaser.physics.startSystem(Phaser.Physics.ARCADE);
+//this.emitter = this.Phaser.add.emitter(0, 0, 100);
+//this.emitter.makeParticles("jajo");
+//this.emitter.gravity = 200;
+//this.emitter.minParticleScale = 0.05;
+//this.emitter.maxParticleScale = 0.1;
+//this.Phaser.input.onDown.add((pointer) => { this.emit(pointer); }, this.Phaser);
 }
