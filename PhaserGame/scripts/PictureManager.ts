@@ -1,6 +1,6 @@
 ﻿/// <reference path="../www/scripts/typings/phaser.d.ts" />
 
-interface IPictureManager extends IPreload {
+interface IPictureManager extends IPreloadAndIUpdatable {
     GeneratePictures(count: number): void;
 }
 
@@ -8,11 +8,13 @@ class PictureManager implements IPictureManager
 {
     private game: PhaserGame;
     private imageProvider: IImageProvider;
-    private group : Phaser.Group;
+    private group: Phaser.Group;
+    private pictures : Array<Picture>;
 
     constructor(game: PhaserGame) {
         this.game = game;
         this.imageProvider = new ImageProvider();
+        this.pictures = new Array<Picture>();
     }    
     
     public Preload(): void {
@@ -21,7 +23,8 @@ class PictureManager implements IPictureManager
             this.game.Phaser.load.image(key, this.imageProvider.GetImageUrl(key, "3d"));
         };
 
-        this.game.Phaser.load.image("test", "image/test.png");
+        this.game.Phaser.load.image("test", "images/test.png");
+        this.game.Phaser.load.image("pictureHudBall", "images/pictureHudBall.png");
     }
 
     public GeneratePictures(count : number): void {
@@ -60,10 +63,22 @@ class PictureManager implements IPictureManager
 
         this.group.remove(tempSprite, true);
 
+        this.pictures = [];
+
         for (let i in rectangles) {
             let key = PictureKeys.Keys[this.game.Phaser.rnd.integerInRange(0, PictureKeys.Keys.length - 1)];
             let rectangle = rectangles[i];
             var picture = new Picture(this.group, rectangle.x, rectangle.y, key, this.game.TtsManager);
+            this.pictures.push(picture);
+            picture.EnableHud("pictureHudBall", this.game.Phaser);
+        }
+    }
+
+    public Update = (): void => {
+        if (!!this.pictures) {
+            for (let i in this.pictures) {
+                this.pictures[i].Update();
+            }
         }
     }
 }
