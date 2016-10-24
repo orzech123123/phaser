@@ -35,7 +35,7 @@ class PictureManager implements IPictureManager
         this.group.inputEnableChildren = true;
         
         var tempSprite: Phaser.Sprite = this.group.create(0, 0, "test");
-        ScreenHelper.ScaleByScreenWidth(tempSprite, 0.15);
+        ScreenHelper.ScaleByScreenWidth(tempSprite, 0.1);
 
         var rectangles = new Array<Phaser.Rectangle>();
         while (rectangles.length < count) {
@@ -70,7 +70,7 @@ class PictureManager implements IPictureManager
             let rectangle = rectangles[i];
             var picture = new Picture(this.group, rectangle.x, rectangle.y, key, this.game.TtsManager);
             this.pictures.push(picture);
-            picture.EnableHud("pictureHudBall", this.game.Phaser);
+            picture.EnableHud("pictureHudBall", this.game.Phaser.add);
         }
     }
 
