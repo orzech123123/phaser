@@ -7,7 +7,7 @@ class PhaserGame {
     public TtsManager: ITtsManager;
     
     private menu: Menu;
-    private backgroundMusic : Media;
+    private backgroundMusic : ExtraMedia;
     private backgroundImage: Phaser.Sprite;
 
     constructor() {
@@ -26,7 +26,7 @@ class PhaserGame {
     
     public Preload() : void {
         this.Phaser.load.image("backgroundImage", "images/background.jpg");
-        this.backgroundMusic = new Media("file:///android_asset/www/audio/agibagi.mp3", null, null);
+        this.backgroundMusic = new ExtraMedia("file:///android_asset/www/audio/agibagi.mp3", null, null, null, true);
         this.PictureManager.Preload();
         this.TtsManager.Preload();
         this.menu.Preload();
@@ -38,9 +38,9 @@ class PhaserGame {
         this.createBackgroundImage();
         this.menu.Create();
         
-        this.backgroundMusic.setVolume(0.3);        
-        this.backgroundMusic.play();
-        this.backgroundMusic.setVolume(0.3);
+        this.backgroundMusic.SetVolume(0.3);        
+        this.backgroundMusic.Play();
+        this.backgroundMusic.SetVolume(0.3);
 
         this.menu.Show();
     }

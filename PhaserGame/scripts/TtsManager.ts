@@ -7,7 +7,7 @@ interface ITtsManager extends IPreload {
 class TtsManager implements ITtsManager {
     private game: PhaserGame;
     private ttsProvider: ITtsProvider;
-    private mediaMap : Map<Media>;
+    private mediaMap: Map<ExtraMedia>;
 
     constructor(game: PhaserGame) {
         this.game = game;
@@ -18,7 +18,8 @@ class TtsManager implements ITtsManager {
     public Preload(): void {
         for (let index in PictureKeys.Keys) {
             let key = PictureKeys.Keys[index];
-            this.mediaMap[key] = new Media(this.ttsProvider.GetAudioUrl(key), null, null);
+            this.mediaMap[key] = new ExtraMedia(this.ttsProvider.GetAudioUrl(key), null, null, null);
+            this.mediaMap[key].Preload();
         };
     }
 
@@ -27,6 +28,6 @@ class TtsManager implements ITtsManager {
         if (!audio)
             return;
 
-        audio.play();
+        audio.Replay();
     }
 }
