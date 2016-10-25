@@ -1,5 +1,5 @@
 ﻿interface IPictureManager extends IPreloadAndIUpdatable {
-    GeneratePictures(count: number): void;
+    GeneratePictures(count: number, excludeRects? : Array<Phaser.Rectangle>): void;
 }
 
 class PictureManager implements IPictureManager
@@ -22,10 +22,10 @@ class PictureManager implements IPictureManager
         };
 
         this.game.Phaser.load.image("test", "images/test.png");
-        this.game.Phaser.load.image("pictureHudBall", "images/pictureHudBall.png");
+        this.game.Phaser.load.image("pictureHud", "images/pictureHud.png");
     }
 
-    public GeneratePictures(count : number): void {
+    public GeneratePictures(count: number, excludeRects?: Array<Phaser.Rectangle>): void {
         if (this.group != null)
             this.group.destroy(true);
 
@@ -42,18 +42,9 @@ class PictureManager implements IPictureManager
             let newRectangle = new Phaser.Rectangle(newRectangleX, newRectangleY, tempSprite.width, tempSprite.height);
 
             let add = true;
-            for (let i in rectangles) {
-                let rectangle = rectangles[i];
-                if (Phaser.Rectangle.intersects(rectangle, newRectangle)) {
-                    add = false;
-                    break;
-                }
 
-                if (!ScreenHelper.GetScreenRectangle().containsRect(newRectangle)) {
-                    add = false;
-                    break;
-                }
-            }
+            add = this.tryAddRect(rectangles, newRectangle) &&
+                 (excludeRects == null || this.tryAddRect(excludeRects, newRectangle));
 
             if (add)
                 rectangles.push(newRectangle);
@@ -68,8 +59,27 @@ class PictureManager implements IPictureManager
             let rectangle = rectangles[i];
             var picture = new Picture(this.group, rectangle.x, rectangle.y, key, this.game.TtsManager);
             this.pictures.push(picture);
-            picture.EnableHud("pictureHudBall", this.game.Phaser.add);
+            picture.EnableHud("pictureHud", this.game.Phaser.add);
         }
+    }
+
+    private tryAddRect = (rectangles: Array<Phaser.Rectangle>, newRectangle: Phaser.Rectangle): boolean => {
+        let add = true;
+
+        for (let i in rectangles) {
+            let rectangle = rectangles[i];
+            if (Phaser.Rectangle.intersects(rectangle, newRectangle)) {
+                add = false;
+                break;
+            }
+
+            if (!ScreenHelper.GetScreenRectangle().containsRect(newRectangle)) {
+                add = false;
+                break;
+            }
+        }
+
+        return add;
     }
 
     public Update = (): void => {

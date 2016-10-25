@@ -2,30 +2,36 @@
     public Phaser: Phaser.Game;
     public PictureManager: IPictureManager;
     public TtsManager: ITtsManager;
+    public BoxManager: IBoxManager;
     
     private menu: Menu;
     private backgroundMusic : ExtraMedia;
+    private backgroundBellsMusic : ExtraMedia;
     private backgroundImage: Phaser.Sprite;
 
     constructor() {
         this.menu = new Menu(this);
         this.PictureManager = new PictureManager(this);
         this.TtsManager = new TtsManager(this);
+        this.BoxManager = new BoxManager(this);
     }
     
     public Init() : void {
         this.Phaser = new Phaser.Game(ScreenHelper.GetScreenWidth(), ScreenHelper.GetScreenHeight(), Phaser.AUTO, "content", { preload: () => { this.Preload(); }, create: () => { this.Create(); }, update: () => { this.Update(); }, render: () => { this.Render(); } }, null, true, null);
     }
 
-    public Start() : void {
-        this.PictureManager.GeneratePictures(10);
+    public Start(): void {
+        var boxSprite = this.BoxManager.GenerateBox();
+        this.PictureManager.GeneratePictures(10, [new Phaser.Rectangle(boxSprite.x, boxSprite.y, boxSprite.width, boxSprite.height)]);
     }
     
     public Preload() : void {
         this.Phaser.load.image("gameBackground", "images/gameBackground.jpg");
         this.backgroundMusic = new ExtraMedia("file:///android_asset/www/audio/agibagi.mp3", null, null, null, true);
+        this.backgroundBellsMusic = new ExtraMedia("file:///android_asset/www/audio/christmasBell.mp3", null, null, null, true);
         this.PictureManager.Preload();
         this.TtsManager.Preload();
+        this.BoxManager.Preload();
         this.menu.Preload();
     }
 
@@ -38,6 +44,9 @@
         this.backgroundMusic.Media.setVolume(0.3);        
         this.backgroundMusic.Media.play();
         this.backgroundMusic.Media.setVolume(0.3);
+        this.backgroundBellsMusic.Media.setVolume(0.15);
+        this.backgroundBellsMusic.Media.play();
+        this.backgroundBellsMusic.Media.setVolume(0.15);
         this.trySetOnPauseAndResume();
 
         this.menu.Show();
@@ -49,9 +58,11 @@
              
         document.addEventListener("pause", () => {
             this.backgroundMusic.Media.pause();
+            this.backgroundBellsMusic.Media.pause();
         }, false);
         document.addEventListener("resume", () => {
             this.backgroundMusic.Media.play();
+            this.backgroundBellsMusic.Media.play();
         }, false);
     }
 
