@@ -10,6 +10,7 @@ class ImageProvider implements IImageProvider {
 
     private getFromIconFinder = (q: string, style?: string): string => {
         var url = "http://www.orzechservices.aspnet.pl/imageprovider/iconfinder?";
+        //var url = "http://localhost:3654/imageprovider/iconfinder?";
         url = url + "q=" + q;
         if (!!style)
             url = url + "&style=" + style;

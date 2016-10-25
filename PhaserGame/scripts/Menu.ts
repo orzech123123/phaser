@@ -35,7 +35,7 @@ class Menu implements IPreloadAndICreate
 
     public Create(): void {
         if (this.group != null)
-            this.group.removeAll(true);
+            this.group.destroy(true);
 
         this.group = this.game.Phaser.add.group();
 

@@ -22,6 +22,20 @@ namespace Images.Controllers
         //id = "q=honey&style=handdrawn";
         public ActionResult IconFinder(string q, string style = null)
         {
+            var url = BuildIconFinderUrl(q, style);
+            var image = imageProvider.GetImage(url);
+
+            if (image == null && !string.IsNullOrWhiteSpace(style))
+            {
+                url = BuildIconFinderUrl(q);
+                image = imageProvider.GetImage(url);
+            }
+
+            return image;
+        }
+
+        private static string BuildIconFinderUrl(string q, string style = null)
+        {
             var urlPartBuilder = new StringBuilder();
             urlPartBuilder.Append($"q={q}");
             if (!string.IsNullOrWhiteSpace(style))
@@ -29,8 +43,7 @@ namespace Images.Controllers
             var urlPart = urlPartBuilder.ToString();
 
             var url = $"https://www.iconfinder.com/search/?{urlPart}";
-
-            return imageProvider.GetImage(url);
+            return url;
         }
     }
 }

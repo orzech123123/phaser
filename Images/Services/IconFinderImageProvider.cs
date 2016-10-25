@@ -50,8 +50,10 @@ namespace Images.Services
             if (!iconUrls.Any())
                 return null;
 
+            var randomIconIndex = new Random().Next(0, iconUrls.Count - 1);
+
             var webClient = new WebClient();
-            var data = webClient.DownloadData(iconUrls[0]);
+            var data = webClient.DownloadData(iconUrls[randomIconIndex]);
             return new FileStreamResult(new MemoryStream(data), "image/png");
         }
     }

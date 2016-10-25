@@ -29,7 +29,7 @@ class PictureManager implements IPictureManager
 
     public GeneratePictures(count : number): void {
         if (this.group != null)
-            this.group.removeAll(true);
+            this.group.destroy(true);
 
         this.group = this.game.Phaser.add.group();
         this.group.inputEnableChildren = true;
