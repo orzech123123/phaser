@@ -1,6 +1,4 @@
-﻿/// <reference path="../www/scripts/typings/phaser.d.ts" />
-
-interface ITtsManager extends IPreload {
+﻿interface ITtsManager extends IPreload {
     PlayAudio(sentence : string): void;
 }
 

@@ -1,7 +1,4 @@
-﻿/// <reference path="../www/scripts/typings/phaser.d.ts" />
-/// <reference path="ImageProvider.ts" />
-
-class PhaserGame {
+﻿class PhaserGame {
     public Phaser: Phaser.Game;
     public PictureManager: IPictureManager;
     public TtsManager: ITtsManager;
@@ -25,7 +22,7 @@ class PhaserGame {
     }
     
     public Preload() : void {
-        this.Phaser.load.image("backgroundImage", "images/background.jpg");
+        this.Phaser.load.image("gameBackground", "images/gameBackground.jpg");
         this.backgroundMusic = new ExtraMedia("file:///android_asset/www/audio/agibagi.mp3", null, null, null, true);
         this.PictureManager.Preload();
         this.TtsManager.Preload();
@@ -41,12 +38,25 @@ class PhaserGame {
         this.backgroundMusic.Media.setVolume(0.3);        
         this.backgroundMusic.Media.play();
         this.backgroundMusic.Media.setVolume(0.3);
+        this.trySetOnPauseAndResume();
 
         this.menu.Show();
     }
 
+    private trySetOnPauseAndResume = () => {
+        if (device.platform === "windows")
+            return;
+             
+        document.addEventListener("pause", () => {
+            this.backgroundMusic.Media.pause();
+        }, false);
+        document.addEventListener("resume", () => {
+            this.backgroundMusic.Media.play();
+        }, false);
+    }
+
     private createBackgroundImage(): void {
-        this.backgroundImage = this.Phaser.add.sprite(0, 0, "backgroundImage");
+        this.backgroundImage = this.Phaser.add.sprite(0, 0, "gameBackground");
         this.backgroundImage.inputEnabled = true;
         this.backgroundImage.scale.setTo(ScreenHelper.GetScreenWidth() / this.backgroundImage.width, ScreenHelper.GetScreenHeight() / this.backgroundImage.height);
     }

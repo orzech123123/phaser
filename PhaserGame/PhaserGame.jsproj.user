@@ -8,4 +8,7 @@
     <ReferenceCachePath>C:\Users\micha\AppData\Local\Temp\PhaserGame_refcache</ReferenceCachePath>
     <ShowAllFiles>false</ShowAllFiles>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Windows-AnyCPU'">
+    <DebuggerFlavor>WindowsLocal</DebuggerFlavor>
+  </PropertyGroup>
 </Project>

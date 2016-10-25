@@ -1,6 +1,4 @@
-﻿/// <reference path="../www/scripts/typings/phaser.d.ts" />
-
-interface IPictureManager extends IPreloadAndIUpdatable {
+﻿interface IPictureManager extends IPreloadAndIUpdatable {
     GeneratePictures(count: number): void;
 }
 

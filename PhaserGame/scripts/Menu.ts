@@ -5,7 +5,7 @@ class Menu implements IPreloadAndICreate
     private game: PhaserGame;
     private group : Phaser.Group;
     private startButton: Phaser.Button;
-    private pauseText: Phaser.Text;
+    private menuText: Phaser.Text;
     private background : Phaser.Sprite;
 
     constructor(game: PhaserGame) {
@@ -17,11 +17,17 @@ class Menu implements IPreloadAndICreate
 
         this.startButton.visible = true;
         this.background.visible = true;
-        this.pauseText.visible = false;
+
+        if (device.platform === "windows") {
+            this.menuText.visible = false;
+        }
     }
     
     public Hide = () => {
-        this.pauseText.visible = true;
+        if (device.platform === "windows") {
+            this.menuText.visible = true;
+        }
+
         this.startButton.visible = false;
         this.background.visible = false;
 
@@ -29,38 +35,59 @@ class Menu implements IPreloadAndICreate
     }
 
     public Preload(): void {
-        this.game.Phaser.load.spritesheet("button", "images/start.png", 0, 0);
-        this.game.Phaser.load.image("menu_background", "images/agibagi.jpg");
+        this.game.Phaser.load.spritesheet("menuStart", "images/menuStart.png", 0, 0);
+        this.game.Phaser.load.image("menuBackground", "images/menuBackground.jpg");
     }
 
     public Create(): void {
+        this.trySetOnBackbutton();
+        this.createInternal();
+    }
+    
+    private trySetOnBackbutton = () => {
+        if (device.platform === "windows")
+            return;
+
+        document.addEventListener("backbutton", () => {
+            if (!this.game.Phaser.paused) {
+                this.createInternal();
+                this.Show();
+            } else {
+                window.close();
+            }
+        }, false);
+    }
+
+    private createInternal = () => {
         if (this.group != null)
             this.group.destroy(true);
 
         this.group = this.game.Phaser.add.group();
 
-        this.background = this.game.Phaser.add.sprite(0, 0, "menu_background");
+        this.background = this.game.Phaser.add.sprite(0, 0, "menuBackground");
         this.background.scale.setTo(ScreenHelper.GetScreenWidth() / this.background.width, ScreenHelper.GetScreenHeight() / this.background.height);
         this.group.add(this.background);
 
-        this.startButton = this.game.Phaser.add.button(0, 0, "button", () => {}, this.game.Phaser);
+        this.startButton = this.game.Phaser.add.button(0, 0, "menuStart", () => { }, this.game.Phaser);
         this.startButton.visible = false;
         ScreenHelper.ScaleByScreenHeight(this.startButton, 0.3);
         this.startButton.centerX = ScreenHelper.GetScreenWidth() / 2 + (ScreenHelper.GetScreenWidth() / 4);
         this.startButton.centerY = ScreenHelper.GetScreenHeight() / 4;
         this.group.add(this.startButton);
-        
-        this.pauseText = this.game.Phaser.add.text(0, 0, "Pause", { font: "24px Arial", fill: "#fff" });
-        this.pauseText.inputEnabled = true;
-        ScreenHelper.ScaleByScreenWidth(this.pauseText, 0.05);
-        this.pauseText.x = ScreenHelper.GetScreenWidth() - this.pauseText.width - 10;
-        this.pauseText.y += 10;
-        this.group.add(this.pauseText);
-        
-        this.pauseText.events.onInputUp.add(() => {
-            this.Create();
-            this.Show();
-        });
+
+        if (device.platform === "windows") {
+            this.menuText = this.game.Phaser.add.text(0, 0, "Menu", { font: "24px Arial", fill: "#fff" });
+            this.menuText.inputEnabled = true;
+            ScreenHelper.ScaleByScreenWidth(this.menuText, 0.05);
+            this.menuText.x = ScreenHelper.GetScreenWidth() - this.menuText.width - 10;
+            this.menuText.y += 10;
+            this.group.add(this.menuText);
+            this.menuText.events.onInputUp.add(() => {
+                this.createInternal();
+                this.Show();
+            });
+        }
+
         this.game.Phaser.input.onDown.add(() => { this.onScreenClick(); }, this.game.Phaser);
     }
     
