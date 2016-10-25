@@ -14,8 +14,8 @@ class TtsManager implements ITtsManager {
     }
 
     public Preload(): void {
-        for (let index in PictureKeys.Keys) {
-            let key = PictureKeys.Keys[index];
+        for (let index in PictureKeys.Instance.Keys) {
+            let key = PictureKeys.Instance.Keys[index];
             this.mediaMap[key] = new ExtraMedia(this.ttsProvider.GetAudioUrl(key), null, null, null);
             this.mediaMap[key].Preload();
         };

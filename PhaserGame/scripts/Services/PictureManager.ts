@@ -21,8 +21,8 @@ class PictureManager extends GroupEntity implements IPictureManager
     }
     
     public Preload(): void {
-        for (let index in PictureKeys.Keys) {
-            let key = PictureKeys.Keys[index];
+        for (let index in PictureKeys.Instance.Keys) {
+            let key = PictureKeys.Instance.Keys[index];
             this.game.Phaser.load.image(key, this.imageProvider.GetImageUrl(key, "3d"));
         };
 
@@ -59,7 +59,7 @@ class PictureManager extends GroupEntity implements IPictureManager
         this.pictures = [];
 
         for (let i in rectangles) {
-            let key = PictureKeys.Keys[this.game.Phaser.rnd.integerInRange(0, PictureKeys.Keys.length - 1)];
+            let key = PictureKeys.Instance.Keys[this.game.Phaser.rnd.integerInRange(0, PictureKeys.Instance.Keys.length - 1)];
             let rectangle = rectangles[i];
             var picture = new Picture(this.Group, rectangle.x, rectangle.y, key, this.game.TtsManager);
             this.pictures.push(picture);

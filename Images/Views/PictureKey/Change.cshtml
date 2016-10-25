@@ -1,0 +1,10 @@
+﻿@model string
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <input type="submit" value="Zapisz"/>
+
+    @Html.TextArea("keys", @Model, new { @cols = "200", @rows = "500" })
+}

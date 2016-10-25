@@ -1,8 +1,20 @@
 ﻿/// <reference path="../www/scripts/typings/phaser.d.ts" />
+/// <reference path="./Services/RequestHelper.ts" />
 
 class PictureKeys {
-    static get Keys(): string[] {
-        const array = ["cat", "santa", "reindeer", "spoon", "hat", "star", "bottle", "fork", "knife", "dog", "doll", "ball", "bear", "car", "mouse", "giraffe", "orange", "apple", "castle", "tree", "duck", "elephant"];
-        return array;
+    private static instance = new PictureKeys();
+
+    private keys: Array<string>;
+
+    constructor() {
+        this.keys = JSON.parse(RequestHelper.Get("http://www.orzechservices.aspnet.pl/picturekey"));
+    }
+
+    static get Instance(): PictureKeys {
+        return this.instance;
+    }
+
+    get Keys(): string[] {
+        return this.keys;
     }
 }

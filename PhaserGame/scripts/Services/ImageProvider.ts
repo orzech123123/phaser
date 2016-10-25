@@ -19,7 +19,7 @@ class ImageProvider implements IImageProvider {
     }
 
     private getFromImageStock = (q : string) : string => {
-        var jsonObj = JSON.parse(this.get("http://testapi.bigstockphoto.com/2/883610/search/?q=" + q));
+        var jsonObj = JSON.parse(RequestHelper.Get("http://testapi.bigstockphoto.com/2/883610/search/?q=" + q));
 
         var images = new Array<string>();
         for (let i in jsonObj.data.images) {
@@ -28,12 +28,5 @@ class ImageProvider implements IImageProvider {
         }
 
         return images[0];
-    }
-
-    private get = (yourUrl) => {
-        var httpreq = new XMLHttpRequest(); 
-        httpreq.open("GET", yourUrl, false);
-        httpreq.send(null);
-        return httpreq.responseText;
     }
 }
