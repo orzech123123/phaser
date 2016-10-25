@@ -1,19 +1,24 @@
-﻿interface IPictureManager extends IPreloadAndIUpdatable {
+﻿interface IPictureManager extends ICollidableProviderAndIPreloadAndIUpdatable {
     GeneratePictures(count: number, excludeRects? : Array<Phaser.Rectangle>): void;
 }
 
-class PictureManager implements IPictureManager
+class PictureManager extends GroupEntity implements IPictureManager
 {
     private game: PhaserGame;
     private imageProvider: IImageProvider;
-    private group: Phaser.Group;
     private pictures : Array<Picture>;
 
     constructor(game: PhaserGame) {
+        super("", game.Phaser.add, true);
+
         this.game = game;
         this.imageProvider = new ImageProvider();
         this.pictures = new Array<Picture>();
-    }    
+    }
+
+    public GetCollidables(): Array<ICollidable> {
+        return this.pictures;
+    }
     
     public Preload(): void {
         for (let index in PictureKeys.Keys) {
@@ -26,13 +31,12 @@ class PictureManager implements IPictureManager
     }
 
     public GeneratePictures(count: number, excludeRects?: Array<Phaser.Rectangle>): void {
-        if (this.group != null)
-            this.group.destroy(true);
+        this.DestroyGroup();
+        this.CreateGroup();
 
-        this.group = this.game.Phaser.add.group();
-        this.group.inputEnableChildren = true;
+        this.Group.inputEnableChildren = true;
         
-        var tempSprite: Phaser.Sprite = this.group.create(0, 0, "test");
+        var tempSprite: Phaser.Sprite = this.Group.create(0, 0, "test");
         ScreenHelper.ScaleByScreenWidth(tempSprite, 0.1);
 
         var rectangles = new Array<Phaser.Rectangle>();
@@ -50,14 +54,14 @@ class PictureManager implements IPictureManager
                 rectangles.push(newRectangle);
         }
 
-        this.group.remove(tempSprite, true);
+        this.Group.remove(tempSprite, true);
 
         this.pictures = [];
 
         for (let i in rectangles) {
             let key = PictureKeys.Keys[this.game.Phaser.rnd.integerInRange(0, PictureKeys.Keys.length - 1)];
             let rectangle = rectangles[i];
-            var picture = new Picture(this.group, rectangle.x, rectangle.y, key, this.game.TtsManager);
+            var picture = new Picture(this.Group, rectangle.x, rectangle.y, key, this.game.TtsManager);
             this.pictures.push(picture);
             picture.EnableHud("pictureHud", this.game.Phaser.add);
         }
@@ -83,7 +87,7 @@ class PictureManager implements IPictureManager
     }
 
     public Update = (): void => {
-        if (!!this.pictures) {
+        if (this.pictures != null) {
             for (let i in this.pictures) {
                 this.pictures[i].Update();
             }

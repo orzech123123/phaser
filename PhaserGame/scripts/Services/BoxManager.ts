@@ -1,36 +1,38 @@
-﻿interface IBoxManager extends IPreload {
+﻿interface IBoxManager extends ICollidableProviderAndIPreload {
     GenerateBox() : Phaser.Sprite;
 }
 
-class BoxManager implements IBoxManager
+class BoxManager extends GroupEntity implements IBoxManager
 {
     private game: PhaserGame;
-    private sprite: Phaser.Sprite;
+    private box : Box;
 
-    constructor(game : PhaserGame) { this.game = game; }
+    constructor(game: PhaserGame) {
+        super("boxbox", game.Phaser.add, false);
+
+         this.game = game;
+    }
 
     public Preload(): void {
         this.game.Phaser.load.image("boxbox", "images/box.png");
     }
 
     public GenerateBox = () : Phaser.Sprite => {
-        this.destroyBox();
+        this.DestroyGroup();
+        this.CreateGroup();
 
-        this.sprite = this.game.Phaser.add.sprite(0, 0, "boxbox");
-        this.sprite.inputEnabled = true;
-        ScreenHelper.ScaleByScreenWidth(this.sprite, 0.3);
+        this.box = new Box(this.Group, 0, 0, this.Key);
+        this.box.GetSprite().inputEnabled = true;
+        ScreenHelper.ScaleByScreenWidth(this.box.GetSprite(), 0.3);
 
-        this.sprite.centerX = ScreenHelper.GetScreenWidth() / 2;
-        this.sprite.centerY = ScreenHelper.GetScreenHeight() - this.sprite.height / 2;
+        this.box.GetSprite().centerX = ScreenHelper.GetScreenWidth() / 2;
+        this.box.GetSprite().centerY = ScreenHelper.GetScreenHeight() - this.box.GetSprite().height / 2;
 
-        return this.sprite;
+        return this.box.GetSprite();
     }
 
-    private destroyBox() {
-        if (this.sprite == null)
-            return;
-
-        this.sprite.destroy();
-        this.sprite = null;
+    GetCollidables(): ICollidable[]
+    {
+         return [this.box];
     }
 }
