@@ -27,6 +27,8 @@
     public Update(): void {
         if (this.hud != null)
             this.hud.Update();
+
+        this.Sprite.tint = 16777215;
     }
 
     public GetCollidableRect(): Phaser.Rectangle {
@@ -34,5 +36,7 @@
     }
 
     public Collide(otherCollidable: ICollidable) {
+        if (otherCollidable instanceof Box)
+            this.Sprite.tint = Math.random() * 0xffffff;
     }
 }
