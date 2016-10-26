@@ -16,7 +16,9 @@ class PreloadDynamicManager implements IPreloadDynamicManager {
     PreloadDynamicFor(action: Function) {
         this.action = action;
 
+        document.getElementById("loading").style.display = "block";
         this.game.Phaser.load.onLoadComplete.add(() => { this.onLoadComplete(); });
+
 
         for (let i in this.preloadDynamics)
             this.preloadDynamics[i].PreloadDynamic();
@@ -35,5 +37,7 @@ class PreloadDynamicManager implements IPreloadDynamicManager {
             this.action();
             this.action = null;
         }
+
+        document.getElementById("loading").style.display = "none";
     }
 }

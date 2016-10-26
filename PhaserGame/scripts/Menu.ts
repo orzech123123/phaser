@@ -18,13 +18,13 @@ class Menu implements IPreloadAndICreate
         this.startButton.visible = true;
         this.background.visible = true;
 
-        if (device.platform === "windows") {
+        if (!device || !device.platform || device.platform === "windows") {
             this.menuText.visible = false;
         }
     }
     
     public Hide = () => {
-        if (device.platform === "windows") {
+        if (!device || !device.platform || device.platform === "windows") {
             this.menuText.visible = true;
         }
 
@@ -45,7 +45,7 @@ class Menu implements IPreloadAndICreate
     }
     
     private trySetOnBackbutton = () => {
-        if (device.platform === "windows")
+        if (!device || !device.platform || device.platform === "windows")
             return;
 
         document.addEventListener("backbutton", () => {
@@ -75,7 +75,7 @@ class Menu implements IPreloadAndICreate
         this.startButton.centerY = ScreenHelper.GetScreenHeight() / 4;
         this.group.add(this.startButton);
 
-        if (device.platform === "windows") {
+        if (!device || !device.platform || device.platform === "windows") {
             this.menuText = this.game.Phaser.add.text(0, 0, "Menu", { font: "24px Arial", fill: "#fff" });
             this.menuText.inputEnabled = true;
             ScreenHelper.ScaleByScreenWidth(this.menuText, 0.05);
@@ -98,8 +98,10 @@ class Menu implements IPreloadAndICreate
         var startButtonRect = new Phaser.Rectangle(this.startButton.x, this.startButton.y, this.startButton.width, this.startButton.height);
         if (!startButtonRect.contains(this.game.Phaser.input.x, this.game.Phaser.input.y) && this.game.Phaser.input.x > 0 && this.game.Phaser.input.y > 0)
             return;
-
-        this.Hide();
-        this.game.Start();
+            
+        this.game.PreloadDynamicManager.PreloadDynamicFor(() => {
+            this.Hide();
+            this.game.Start();
+        });
     }
 }

@@ -23,14 +23,10 @@
     public Start(): void {
 //        if (this.isStarted)
 //            return;
+        var boxSprite = this.BoxManager.GenerateBox();
+        this.PictureManager.GeneratePictures(10, [SpriteHelper.GetSpriteRectangle(boxSprite)]);
 
-        this.PreloadDynamicManager.PreloadDynamicFor(() => {
-            var boxSprite = this.BoxManager.GenerateBox();
-            this.PictureManager.GeneratePictures(10, [SpriteHelper.GetSpriteRectangle(boxSprite)]);
-
-            this.isStarted = true;
-        });
-
+        this.isStarted = true;
     }
     
     public Preload(): void {
@@ -74,7 +70,7 @@
     }
 
     private trySetOnPauseAndResume = () => {
-        if (device.platform === "windows")
+        if (!device || !device.platform || device.platform === "windows")
             return;
              
         document.addEventListener("pause", () => {
