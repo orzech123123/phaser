@@ -109,7 +109,7 @@
         aggregate<U, V>(seed: U, func: (prev: U, current: T) => U, resultSelector?: (last: U) => V): V;
 
         average(selector?: (element: T) => number): number;
-        sum(selector?: (element: T) => number): number;
+        Sum(selector?: (element: T) => number): number;
         count(predicate?: (element: T, index: number) => boolean): number;
 
         max(selector?: (element: T) => number): number;

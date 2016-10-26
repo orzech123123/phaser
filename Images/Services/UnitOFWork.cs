@@ -28,11 +28,7 @@ namespace Images.Services
                     .Database(MsSqlConfiguration.MsSql2012
                     .ConnectionString(cs => cs.FromConnectionStringWithKey("Images")))
                     .Mappings(m => m.FluentMappings.AddFromAssemblyOf<PictureKeyRecord>())
-                    .ExposeConfiguration(config =>
-                    {
-                        var schemaExport = new SchemaExport(config);
-                        schemaExport.Create(false, true);
-                    })
+                    .ExposeConfiguration(cfg => new SchemaUpdate(cfg).Execute(false, true))
                     .BuildSessionFactory();
         }
 
