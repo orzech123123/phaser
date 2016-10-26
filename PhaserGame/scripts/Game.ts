@@ -3,6 +3,7 @@
     public PictureManager: IPictureManager;
     public TtsManager: ITtsManager;
     public BoxManager: IBoxManager;
+    public PreloadDynamicManager: IPreloadDynamicManager;
     
     private menu: Menu;
     private backgroundMusic : ExtraMedia;
@@ -17,17 +18,19 @@
     
     public Init() : void {
         this.Phaser = new Phaser.Game(ScreenHelper.GetScreenWidth(), ScreenHelper.GetScreenHeight(), Phaser.AUTO, "content", { preload: () => { this.Preload(); }, create: () => { this.Create(); }, update: () => { this.Update(); }, render: () => { this.Render(); } }, null, true, null);
-        
     }
 
     public Start(): void {
-        if (this.isStarted)
-            return;
+//        if (this.isStarted)
+//            return;
 
-        var boxSprite = this.BoxManager.GenerateBox();
-        this.PictureManager.GeneratePictures(10, [SpriteHelper.GetSpriteRectangle(boxSprite)]);
+        this.PreloadDynamicManager.PreloadDynamicFor(() => {
+            var boxSprite = this.BoxManager.GenerateBox();
+            this.PictureManager.GeneratePictures(10, [SpriteHelper.GetSpriteRectangle(boxSprite)]);
 
-        this.isStarted = true;
+            this.isStarted = true;
+        });
+
     }
     
     public Preload(): void {
@@ -36,19 +39,21 @@
         this.TtsManager = new TtsManager(this);
         this.BoxManager = new BoxManager(this);
         this.collidableManager = new CollidableManager();
+        this.PreloadDynamicManager = new PreloadDynamicManager(this);
+
 
         this.Phaser.load.image("gameBackground", "images/gameBackground.jpg");
 
         this.backgroundMusic = new ExtraMedia("file:///android_asset/www/audio/agibagi.mp3", null, null, null, true);
         this.backgroundBellsMusic = new ExtraMedia("file:///android_asset/www/audio/christmasBell.mp3", null, null, null, true);
 
-        this.PictureManager.Preload();
         this.TtsManager.Preload();
         this.BoxManager.Preload();
         this.menu.Preload();
 
         this.collidableManager.RegisterProvider(this.PictureManager);
         this.collidableManager.RegisterProvider(this.BoxManager);
+        this.PreloadDynamicManager.RegisterPreloadDynamic(this.PictureManager);
     }
 
     public Create(): void {

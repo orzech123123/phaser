@@ -7,6 +7,7 @@ class SpriteEntity extends KeyEntity {
         super(key);
 
         this.Sprite = group.create(x, y, key);
+        //this.Sprite.loadTexture(key);
     }
 
     public GetSprite = (): Phaser.Sprite => {

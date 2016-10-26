@@ -14,6 +14,8 @@ class ImageProvider implements IImageProvider {
         url = url + "q=" + q;
         if (!!style)
             url = url + "&style=" + style;
+            
+        url = url + "&stamp=" + Date.now();
 
         return url;
     }

@@ -25,4 +25,9 @@
 
         this.Group = this.ObjectFactory.group();
     }
+
+    public RecreateGroup = () => {
+        this.DestroyGroup();
+        this.CreateGroup();
+    }
 }

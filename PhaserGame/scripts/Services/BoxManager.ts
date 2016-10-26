@@ -18,8 +18,7 @@ class BoxManager extends GroupEntity implements IBoxManager
     }
 
     public GenerateBox = () : Phaser.Sprite => {
-        this.DestroyGroup();
-        this.CreateGroup();
+        this.RecreateGroup();
 
         this.box = new Box(this.Group, 0, 0, this.Key);
         this.box.GetSprite().inputEnabled = true;

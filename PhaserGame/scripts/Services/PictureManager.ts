@@ -1,4 +1,4 @@
-﻿interface IPictureManager extends ICollidableProviderAndIPreloadAndIUpdatable {
+﻿interface IPictureManager extends ICollidableProviderAndIPreloadDynamicAndIUpdatable {
     GeneratePictures(count: number, excludeRects? : Array<Phaser.Rectangle>): void;
 }
 
@@ -6,7 +6,9 @@ class PictureManager extends GroupEntity implements IPictureManager
 {
     private game: PhaserGame;
     private imageProvider: IImageProvider;
-    private pictures : Array<Picture>;
+    private pictures: Array<Picture>;
+    
+    private action : Function;
 
     constructor(game: PhaserGame) {
         super("", game.Phaser.add, true);
@@ -16,23 +18,8 @@ class PictureManager extends GroupEntity implements IPictureManager
         this.pictures = new Array<Picture>();
     }
 
-    public GetCollidables(): Array<ICollidable> {
-        return this.pictures;
-    }
-    
-    public Preload(): void {
-        for (let index in PictureKeys.Instance.Keys) {
-            let key = PictureKeys.Instance.Keys[index];
-            this.game.Phaser.load.image(key, this.imageProvider.GetImageUrl(key, "3d"));
-        };
-
-        this.game.Phaser.load.image("test", "images/test.png");
-        this.game.Phaser.load.image("pictureHud", "images/pictureHud.png");
-    }
-
     public GeneratePictures(count: number, excludeRects?: Array<Phaser.Rectangle>): void {
-        this.DestroyGroup();
-        this.CreateGroup();
+        this.RecreateGroup();
 
         this.Group.inputEnableChildren = true;
         
@@ -92,5 +79,23 @@ class PictureManager extends GroupEntity implements IPictureManager
                 this.pictures[i].Update();
             }
         }
+    }
+
+    public GetPreloadDynamicCount(): number {
+         return PictureKeys.Instance.Keys.length + 2;
+    }
+    
+    public GetCollidables(): Array<ICollidable> {
+        return this.pictures;
+    }
+
+    public PreloadDynamic(): void {
+        for (let index in PictureKeys.Instance.Keys) {
+            let key = PictureKeys.Instance.Keys[index];
+            this.game.Phaser.load.image(key, this.imageProvider.GetImageUrl(key, "3d"));
+        };
+
+        this.game.Phaser.load.image("test", "images/test.png");
+        this.game.Phaser.load.image("pictureHud", "images/pictureHud.png");
     }
 }
