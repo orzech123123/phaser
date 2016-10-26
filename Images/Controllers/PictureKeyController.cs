@@ -23,7 +23,7 @@ namespace Images.Controllers
         }
 
         [HttpGet]
-        public ActionResult Change()
+        public ActionResult Keys()
         {
             var keys = pictureKeyRepository.Query()
                 .Select(p => p.Value)
@@ -35,7 +35,7 @@ namespace Images.Controllers
         }
 
         [HttpPost]
-        public ActionResult Change(FormCollection collection, string keys)
+        public ActionResult Keys(FormCollection collection, string keys)
         {
             pictureKeyRepository.RemoveAll();
             foreach (var key in keys.Split('\n'))
@@ -43,7 +43,7 @@ namespace Images.Controllers
                 pictureKeyRepository.Add(new PictureKeyRecord { Value = key.Replace("\r", string.Empty) });
             }
 
-            return RedirectToAction("Change");
+            return RedirectToAction("Keys");
         }
     }
 }

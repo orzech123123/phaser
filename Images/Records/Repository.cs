@@ -18,7 +18,7 @@ namespace Images.Records
     {
         private readonly IUnitOfWork _uow;
 
-        private ISession session
+        protected ISession Session
         {
             get { return _uow.Session; }
         }
@@ -30,29 +30,29 @@ namespace Images.Records
         
         public void Add(T entity)
         {
-            session.Save(entity);
+            Session.Save(entity);
         }
 
         public T Get(int id)
         {
-            return session.Get<T>(id);
+            return Session.Get<T>(id);
         }
         
         public void Remove(T entity)
         {
-            session.Delete(entity);
+            Session.Delete(entity);
         }
 
         public IQueryable<T> Query()
         {
-            return session.Query<T>().AsQueryable();
+            return Session.Query<T>().AsQueryable();
         }
 
         public void RemoveAll()
         {
             var records = Query().ToList();
             foreach (var record in records)
-                session.Delete(record);
+                Session.Delete(record);
         }
     }
 }

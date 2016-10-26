@@ -213,6 +213,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\ImageProviderController.cs" />
+    <Compile Include="Controllers\PictureImageController.cs" />
     <Compile Include="Controllers\PictureKeyController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -221,7 +222,9 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Records\PictureImageRecord.cs" />
     <Compile Include="Records\PictureKeyRecord.cs" />
+    <Compile Include="Records\PictureImageRepository.cs" />
     <Compile Include="Records\PictureKeyRepository.cs" />
     <Compile Include="Records\Repository.cs" />
     <Compile Include="Services\IconFinderImageProvider.cs" />
@@ -288,7 +291,8 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\PictureKey\Change.cshtml" />
+    <Content Include="Views\PictureKey\Keys.cshtml" />
+    <Content Include="Views\PictureImage\Upload.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

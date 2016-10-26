@@ -1,0 +1,14 @@
+﻿@model IEnumerable<string>
+
+@using (Html.BeginForm("Upload", "PictureImage", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    @(string.Join(", ", Model))
+
+    <input type="submit" value="Zapisz"/>
+
+    @Html.TextBox("key")
+
+    <input type="file" name="file" accept="image/*">
+}

@@ -12,8 +12,8 @@ namespace Images.Records
     {
         public PictureKeyMap()
         {
-            Id(x => x.Id);
-            Map(x => x.Value);
+            Id(k => k.Id);
+            Map(k => k.Value).Not.Nullable();
         }
     }
 }
