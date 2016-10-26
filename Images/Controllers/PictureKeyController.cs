@@ -1,33 +1,47 @@
-﻿using System.IO;
-using System.Text;
+﻿using System.Linq;
 using System.Web.Mvc;
+using Images.Records;
 
 namespace Images.Controllers
 {
-    public class PictureKeyController : Controller
+    public class PictureKeyController : BaseController
     {
-        private static readonly string path = System.Web.HttpContext.Current.Server.MapPath("~/App_Data/keys.txt");
+        private readonly IPictureKeyRepository pictureKeyRepository;
+
+        public PictureKeyController()
+        {
+            pictureKeyRepository = new PictureKeyRepository(UnitOfWork);
+        }
 
         public ActionResult Index()
         {
-            var keysString = System.IO.File.Exists(path) ? System.IO.File.ReadAllText(path, Encoding.UTF8) : string.Empty;
-
-            var result = keysString.Split('\n');
-            return Json(result, JsonRequestBehavior.AllowGet);
+            var keys = pictureKeyRepository.Query()
+                .Select(p => p.Value)
+                .ToList();
+            
+            return Json(keys, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
         public ActionResult Change()
         {
-            var keys = System.IO.File.Exists(path) ? System.IO.File.ReadAllText(path, Encoding.UTF8) : string.Empty;
+            var keys = pictureKeyRepository.Query()
+                .Select(p => p.Value)
+                .ToList();
 
-            return View((object)keys);
+            var result = string.Join("\n", keys);
+
+            return View((object)result);
         }
 
         [HttpPost]
         public ActionResult Change(FormCollection collection, string keys)
         {
-            System.IO.File.WriteAllText(path, keys.Replace("\r", string.Empty));
+            pictureKeyRepository.RemoveAll();
+            foreach (var key in keys.Split('\n'))
+            {
+                pictureKeyRepository.Add(new PictureKeyRecord { Value = key.Replace("\r", string.Empty) });
+            }
 
             return RedirectToAction("Change");
         }
