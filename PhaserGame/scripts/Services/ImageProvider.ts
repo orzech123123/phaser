@@ -5,7 +5,7 @@
 class ImageProvider implements IImageProvider {
     public GetImageUrl = (q: string, style?: string) : string => {
         return this.getFromIconFinder(q, style);
-        return this.getFromImageStock(q);
+        //return this.getFromImageStock(q);
     }
 
     private getFromIconFinder = (q: string, style?: string): string => {

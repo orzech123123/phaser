@@ -1,4 +1,6 @@
-﻿class GroupEntity extends KeyEntity {
+﻿/// <reference path="KeyEntity.ts" />
+
+class GroupEntity extends KeyEntity {
     protected Group : Phaser.Group;
     protected ObjectFactory: Phaser.GameObjectFactory;
 
