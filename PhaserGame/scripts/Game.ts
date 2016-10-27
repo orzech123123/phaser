@@ -36,8 +36,7 @@
         this.BoxManager = new BoxManager(this);
         this.collidableManager = new CollidableManager();
         this.PreloadDynamicManager = new PreloadDynamicManager(this);
-
-
+        
         this.Phaser.load.image("gameBackground", "images/gameBackground.jpg");
 
         this.backgroundMusic = new ExtraMedia("file:///android_asset/www/audio/agibagi.mp3", null, null, null, true);
@@ -45,7 +44,6 @@
 
         this.TtsManager.Preload();
         this.BoxManager.Preload();
-        this.menu.Preload();
 
         this.collidableManager.RegisterProvider(this.PictureManager);
         this.collidableManager.RegisterProvider(this.BoxManager);
@@ -64,15 +62,14 @@
         this.backgroundBellsMusic.Media.setVolume(0.15);
         this.backgroundBellsMusic.Media.play();
         this.backgroundBellsMusic.Media.setVolume(0.15);
-        this.trySetOnPauseAndResume();
+
+        if (!DeviceHelper.IsWindows())
+            this.setOnPauseAndResume();
 
         this.menu.Show();
     }
 
-    private trySetOnPauseAndResume = () => {
-        if (!device || !device.platform || device.platform === "windows")
-            return;
-             
+    private setOnPauseAndResume = () => {
         document.addEventListener("pause", () => {
             this.backgroundMusic.Media.pause();
             this.backgroundBellsMusic.Media.pause();

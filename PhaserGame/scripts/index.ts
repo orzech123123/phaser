@@ -9,16 +9,18 @@ module Application {
     "use strict";
 
     class Application {
-        public Initialize = () => {
+        public Init = () => {
             document.addEventListener("deviceready", this.onDeviceReady, false);
         }
 
         private onDeviceReady = () => {
+            var game = new PhaserGame();
+            game.Init();
         }
     }
 
     window.onload = () => {
-        var game = new PhaserGame();
-        game.Init();
+        var app = new Application();
+        app.Init();
     }
 }

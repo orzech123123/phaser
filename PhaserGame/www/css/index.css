@@ -61,11 +61,11 @@
 
 /**********************************/
 
-.loading {
+.pg-backgroundScreen {
     display: none;
     vertical-align: middle;
     text-align: center; 
-    z-index: 99999999;
+    z-index: 99999998;
     background-image: url('../images/menuBackground.jpg');
     background-size: cover;
     background-repeat: no-repeat;
@@ -77,11 +77,19 @@
     height: 100%
 }
 
-.pb {
+.pg-center {
     position: absolute;
+    transform: translate(-50%,-50%);
     top: 50%; 
     left: 50%; 
+}
+
+.pg-progressbar {
     width: 50%; 
     height: 10%;
-    transform: translate(-50%,-50%);
+}
+
+.pg-menuButton {
+    /*width: 5%; 
+    height: 10%;*/
 }

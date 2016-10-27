@@ -11,9 +11,16 @@
 <body>
     <div id="content"></div>
 
-    <div id="loading" class="loading">
+    <div id="menuScreen" class="pg-backgroundScreen">
+        <div id="menuButtons" class="pg-menuButtons pg-center">
+            <button id="startButton" class="pg-menuButton ui-button ui-widget ui-corner-all">START</button>
+            <button id="quitButton" class="pg-menuButton ui-button ui-widget ui-corner-all">ZAKOŃCZ</button>
+        </div>
+    </div>
+
+    <div id="loadingScreen" class="pg-backgroundScreen">
         <div id="datepicker"></div>
-        <div id="progressbar" class="pb"></div>
+        <div id="progressbar" class="pg-center pg-progressbar"></div>
     </div>
 
     <script src="cordova.js"></script>

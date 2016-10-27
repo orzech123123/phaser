@@ -10,13 +10,13 @@ class PreloadDynamicManager implements IPreloadDynamicManager {
     private action: Function;
     private preloadDynamics: Array<IPreloadDynamic>;
     private loaded: number;
-    private $loading : JQuery;
+    private $loadingScreen : JQuery;
     private $progressbar : JQuery;
 
     constructor(game : PhaserGame) {
         this.game = game;
         this.preloadDynamics = [];
-        this.$loading = $("#loading");
+        this.$loadingScreen = $("#loadingScreen");
         this.$progressbar = $("#progressbar");
         this.$progressbar.progressbar({
             value: 0
@@ -32,7 +32,7 @@ class PreloadDynamicManager implements IPreloadDynamicManager {
             value: 0
         });
 
-        this.$loading.css("display", "table-cell");
+        this.$loadingScreen.css("display", "table-cell");
         this.game.Phaser.load.onFileComplete.add(() => { this.onFileComplete(); });
         this.game.Phaser.load.onLoadComplete.add(() => { this.onLoadComplete(); });
 
@@ -47,7 +47,7 @@ class PreloadDynamicManager implements IPreloadDynamicManager {
         this.preloadDynamics.push(preloadDynamic);
     }
 
-    public onLoadComplete = () => {
+    private onLoadComplete = () => {
         this.game.Phaser.load.onFileComplete.removeAll();
         this.game.Phaser.load.onLoadComplete.removeAll();
 
@@ -56,10 +56,10 @@ class PreloadDynamicManager implements IPreloadDynamicManager {
             this.action = null;
         }
 
-        this.$loading.hide();
+        this.$loadingScreen.hide();
     }
 
-    public onFileComplete = () => {
+    private onFileComplete = () => {
         this.loaded++;
         var toLoad = Enumerable.From(this.preloadDynamics).Select(d => d.GetPreloadDynamicCount()).Sum(c => c);
 
