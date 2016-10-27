@@ -26,6 +26,9 @@ class PreloadDynamicManager implements IPreloadDynamicManager {
     PreloadDynamicFor(action: Function) {
         this.action = action;
         this.loaded = 0;
+        this.$progressbar.progressbar({
+            value: 0
+        });
 
         this.$loading.css("display", "table-cell");
         this.game.Phaser.load.onFileComplete.add(() => { this.onFileComplete(); });
