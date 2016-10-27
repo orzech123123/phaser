@@ -9,14 +9,14 @@
         this.angle = 0;
         
         this.picture.GetSprite().events.onDragStart.add(() => {
-            this.OnPictureDragStart();
+            this.onPictureDragStart();
         });
         this.picture.GetSprite().events.onDragStop.add(() => {
-            this.OnPictureDragStop();
+            this.onPictureDragStop();
         });
     }
 
-    public OnPictureDragStart = () => {
+    private onPictureDragStart = () => {
         this.DestroyGroup();
 
         this.Group = this.ObjectFactory.group();
@@ -39,7 +39,7 @@
         }
     }
 
-    public OnPictureDragStop = () => {
+    private onPictureDragStop = () => {
         this.angle = 0;
         this.DestroyGroup();
     }
