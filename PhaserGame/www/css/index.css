@@ -89,7 +89,11 @@
     height: 10%;
 }
 
-.pg-menuButton {
-    /*width: 5%; 
-    height: 10%;*/
+.pg-menuButtons {
+    width: 50%;
+}
+
+.pg-menuButtons > button {
+    width: 50%;
+    margin-bottom: 20px;
 }
