@@ -33,7 +33,7 @@ class SpriteEntity extends KeyEntity implements IDisposable {
     }
 
     public Dispose() {
-//        if (this.Sprite != null)
-//            this.Sprite.destroy(true);
+        if (this.Sprite != null)
+            this.Sprite.destroy(true);
     }
 }

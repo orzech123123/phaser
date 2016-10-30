@@ -6,7 +6,7 @@
     public PreloadDynamicManager: IPreloadDynamicManager;
     public State: State;
     
-    private menu: Menu;
+    public menu: Menu;
     private backgroundMusic : ExtraMedia;
     private backgroundBellsMusic : ExtraMedia;
     private backgroundImage: Phaser.Sprite;
