@@ -71,9 +71,9 @@
         distinct(compareSelector?: (element: T) => any): IEnumerable<T>;
         distinctUntilChanged(compareSelector: (element: T) => any): IEnumerable<T>;
 
-        except(second: T[], compareSelector?: (element: T) => any): IEnumerable<T>;
-        except(second: ArrayLike<T>, compareSelector?: (element: T) => any): IEnumerable<T>;
-        except(second: IEnumerable<T>, compareSelector?: (element: T) => any): IEnumerable<T>;
+        Except(second: T[], compareSelector?: (element: T) => any): IEnumerable<T>;
+        Except(second: ArrayLike<T>, compareSelector?: (element: T) => any): IEnumerable<T>;
+        Except(second: IEnumerable<T>, compareSelector?: (element: T) => any): IEnumerable<T>;
 
         intersect(second: T[], compareSelector?: (element: T) => any): IEnumerable<T>;
         intersect(second: ArrayLike<T>, compareSelector?: (element: T) => any): IEnumerable<T>;

@@ -4,6 +4,7 @@
     public TtsManager: ITtsManager;
     public BoxManager: IBoxManager;
     public PreloadDynamicManager: IPreloadDynamicManager;
+    public State: State;
     
     private menu: Menu;
     private backgroundMusic : ExtraMedia;
@@ -23,8 +24,12 @@
     public Start(): void {
 //        if (this.isStarted)
 //            return;
+
+        this.State.Generate(10);        
+
         var boxSprite = this.BoxManager.GenerateBox();
-        this.PictureManager.GeneratePictures(10, [SpriteHelper.GetSpriteRectangle(boxSprite)]);
+
+        this.PictureManager.GeneratePictures(this.State.Keys, [SpriteHelper.GetSpriteRectangle(boxSprite)]);
 
         this.isStarted = true;
     }
@@ -36,6 +41,7 @@
         this.BoxManager = new BoxManager(this);
         this.collidableManager = new CollidableManager();
         this.PreloadDynamicManager = new PreloadDynamicManager(this);
+        this.State = new State(this);
         
         this.Phaser.load.image("gameBackground", "images/gameBackground.jpg");
 
@@ -90,6 +96,7 @@
     }
     
     public Update() {
+        this.menu.Update();
         this.PictureManager.Update();
         this.collidableManager.Update();
     }

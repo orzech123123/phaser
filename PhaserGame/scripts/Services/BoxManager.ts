@@ -1,6 +1,6 @@
 ﻿/// <reference path="../Entities/GroupEntity.ts" />
 
-interface IBoxManager extends ICollidableProviderAndIPreload {
+interface IBoxManager extends ICollidableProvider, IPreload {
     GenerateBox() : Phaser.Sprite;
 }
 

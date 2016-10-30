@@ -1,6 +1,6 @@
 ﻿/// <reference path="KeyEntity.ts" />
 
-class GroupEntity extends KeyEntity {
+class GroupEntity extends KeyEntity implements IDisposable {
     protected Group : Phaser.Group;
     protected ObjectFactory: Phaser.GameObjectFactory;
 
@@ -31,5 +31,10 @@ class GroupEntity extends KeyEntity {
     public RecreateGroup = () => {
         this.DestroyGroup();
         this.CreateGroup();
+    }
+
+    Dispose() {
+        if (this.Group != null)
+            this.Group.destroy(true);
     }
 }

@@ -9,11 +9,3 @@ interface IPreload {
 interface IUpdatable {
     Update(): void;
 }
-
-interface IPreloadAndICreate extends IPreload, ICreate {
-    
-}
-
-interface IPreloadAndIUpdatable extends IPreload, IUpdatable {
-
-}

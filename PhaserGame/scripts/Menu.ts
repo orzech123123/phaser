@@ -1,15 +1,15 @@
 ﻿/// <reference path="../www/scripts/typings/phaser.d.ts" />
 /// <reference path="./typings/jquery.d.ts" />
 
-class Menu implements ICreate
+class Menu implements ICreate, IUpdatable
 {
     private game: PhaserGame;
-    private group: Phaser.Group;
-    private menuButton: Phaser.Text;
 
     private $menuScreen: JQuery;
     private $startButton: JQuery;
     private $quitButton: JQuery;
+    
+    private spaceKey : Phaser.Key;
 
     constructor(game: PhaserGame) {
         this.game = game;
@@ -27,56 +27,33 @@ class Menu implements ICreate
         this.game.Phaser.paused = true;
         
         this.$menuScreen.show();
-
-        if (this.menuButton != null)
-            this.menuButton.visible = false;
     }
     
     public Hide = () => {
-        if (this.menuButton != null)
-            this.menuButton.visible = true;
-
         this.$menuScreen.hide();
 
         this.game.Phaser.paused = false;
     }
 
     public Create(): void {
-        this.trySetOnBackbutton();
-        this.createInternal();
+        this.setBackButton();
     }
     
-    private trySetOnBackbutton = () => {
-        if (DeviceHelper.IsWindows())
-            return;
-
-        document.addEventListener("backbutton", () => {
-            if (!this.game.Phaser.paused) {
-                this.createInternal();
-                this.Show();
-            } else {
-                //window.close();
-            }
-        }, false);
+    private setBackButton = () => {
+        if (DeviceHelper.IsWindows()) {
+            this.spaceKey = this.game.Phaser.input.keyboard.addKey(Phaser.Keyboard.ESC);
+        } else {
+            document.addEventListener("backbutton", () => {
+               this.onBackButton();
+            }, false);
+        }
     }
 
-    private createInternal = () => {
-        if (this.group != null)
-            this.group.destroy(true);
-
-        this.group = this.game.Phaser.add.group();
-        
-        if (DeviceHelper.IsWindows()) {
-            this.menuButton = this.game.Phaser.add.text(0, 0, "Menu", { font: "24px Arial", fill: "#fff" });
-            this.menuButton.inputEnabled = true;
-            ScreenHelper.ScaleByScreenWidth(this.menuButton, 0.05);
-            this.menuButton.x = ScreenHelper.GetScreenWidth() - this.menuButton.width - 10;
-            this.menuButton.y += 10;
-            this.group.add(this.menuButton);
-            this.menuButton.events.onInputUp.add(() => {
-                this.createInternal();
-                this.Show();
-            });
+    private onBackButton = () => {
+        if (!this.game.Phaser.paused) {
+            this.Show();
+        } else {
+            //window.close();
         }
     }
     
@@ -92,5 +69,10 @@ class Menu implements ICreate
     
     private onQuitButtonClick = () => {
         window.close();
+    }
+
+    public Update = (): void => {
+        if (this.spaceKey != null && this.spaceKey.isDown)
+            this.onBackButton();
     }
 }

@@ -12,23 +12,6 @@ interface IPreloadDynamic {
     PreloadDynamic();
 }
 
-
-interface ICollidableProviderAndIPreload extends ICollidableProvider, IPreload {
-
-}
-
-interface ICollidableProviderAndIPreloadAndIUpdatable extends ICollidableProviderAndIPreload, IUpdatable {
-    
-}
-
-interface ICollidableProviderAndIPreloadDynamic extends ICollidableProvider, IPreloadDynamic {
-
-}
-
-interface ICollidableProviderAndIPreloadDynamicAndIUpdatable extends ICollidableProviderAndIPreloadDynamic, IUpdatable {
-
-}
-
-interface ICollidableAndIUpdatable extends ICollidable, IUpdatable {
-    
+interface IDisposable {
+    Dispose();
 }

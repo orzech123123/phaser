@@ -1,5 +1,5 @@
-﻿interface IPictureManager extends ICollidableProviderAndIPreloadDynamicAndIUpdatable {
-    GeneratePictures(count: number, excludeRects? : Array<Phaser.Rectangle>): void;
+﻿interface IPictureManager extends ICollidableProvider, IPreloadDynamic, IUpdatable {
+    GeneratePictures(keys : Array<string>, excludeRects? : Array<Phaser.Rectangle>): void;
 }
 
 class PictureManager extends GroupEntity implements IPictureManager
@@ -18,7 +18,7 @@ class PictureManager extends GroupEntity implements IPictureManager
         this.pictures = new Array<Picture>();
     }
 
-    public GeneratePictures(count: number, excludeRects?: Array<Phaser.Rectangle>): void {
+    public GeneratePictures(keys: Array<string>, excludeRects?: Array<Phaser.Rectangle>): void {
         this.RecreateGroup();
 
         this.Group.inputEnableChildren = true;
@@ -27,7 +27,7 @@ class PictureManager extends GroupEntity implements IPictureManager
         ScreenHelper.ScaleByScreenWidth(tempSprite, 0.1);
 
         var rectangles = new Array<Phaser.Rectangle>();
-        while (rectangles.length < count) {
+        while (rectangles.length < keys.length) {
             let newRectangleX = this.game.Phaser.rnd.integerInRange(0, ScreenHelper.GetScreenWidth() - tempSprite.width);
             let newRectangleY = this.game.Phaser.rnd.integerInRange(0, ScreenHelper.GetScreenHeight() - tempSprite.height);
             let newRectangle = new Phaser.Rectangle(newRectangleX, newRectangleY, tempSprite.width, tempSprite.height);
@@ -46,11 +46,24 @@ class PictureManager extends GroupEntity implements IPictureManager
         this.pictures = [];
 
         for (let i in rectangles) {
-            let key = PictureKeys.Instance.Keys[this.game.Phaser.rnd.integerInRange(0, PictureKeys.Instance.Keys.length - 1)];
+            let key = keys[i];
             let rectangle = rectangles[i];
-            var picture = new Picture(this.Group, rectangle.x, rectangle.y, key, this.game.TtsManager);
+            var picture = new Picture(this.Group, rectangle.x, rectangle.y, key, (p) => { this.pictureDropedOnBox(p); });
             this.pictures.push(picture);
             picture.EnableHud("pictureHud", this.game.Phaser.add);
+        }
+    }
+
+    private pictureDropedOnBox = (picture: Picture) => {
+        picture.Dispose();
+
+        this.Group.remove(picture.GetSprite(), true);
+
+        if (this.pictures.indexOf(picture) >= 0)
+            this.pictures.splice(this.pictures.indexOf(picture), 1);
+
+        if (this.pictures.length === 0) {
+            //TODO wszystkie skonsumowane!
         }
     }
 
