@@ -45,8 +45,8 @@
         
         this.Phaser.load.image("gameBackground", "images/gameBackground.jpg");
 
-        this.backgroundMusic = new ExtraMedia("file:///android_asset/www/audio/agibagi.mp3", null, null, null, true);
-        this.backgroundBellsMusic = new ExtraMedia("file:///android_asset/www/audio/christmasBell.mp3", null, null, null, true);
+        this.backgroundMusic = new ExtraMedia("audio/agibagi.mp3", null, null, null, true);
+        this.backgroundBellsMusic = new ExtraMedia("audio/christmasBell.mp3", null, null, null, true);
 
         this.TtsManager.Preload();
         this.BoxManager.Preload();
@@ -63,9 +63,9 @@
         this.createBackgroundImage();
         this.menu.Create();
         
-        this.backgroundMusic.Media.setVolume(0.3);        
-        this.backgroundMusic.Media.play();
-        this.backgroundMusic.Media.setVolume(0.3);
+//        this.backgroundMusic.Media.setVolume(0.1);        
+//        this.backgroundMusic.Media.play();
+//        this.backgroundMusic.Media.setVolume(0.1);
         this.backgroundBellsMusic.Media.setVolume(0.15);
         this.backgroundBellsMusic.Media.play();
         this.backgroundBellsMusic.Media.setVolume(0.15);

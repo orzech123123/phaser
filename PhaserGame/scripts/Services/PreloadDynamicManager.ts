@@ -21,8 +21,6 @@ class PreloadDynamicManager implements IPreloadDynamicManager {
         this.$progressbar.progressbar({
             value: 0
         });
-
-        $("#datepicker").datepicker();
     }
 
     PreloadDynamicFor(action: Function) {

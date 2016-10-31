@@ -57,7 +57,7 @@
     Update(): void {}
 
     CollidablesNotification(pairs: ICollidableTuple[]) {
-        var boxDropedPictureCollides = Enumerable.From(pairs)
+        var boxPictureCollides = Enumerable.From(pairs)
             .Where(p =>
                 (p.Collidable1 instanceof Box && p.Collidable2 instanceof Picture) ||
                 (p.Collidable1 instanceof Picture && p.Collidable2 instanceof Box))
@@ -67,8 +67,8 @@
             }))
             .ToArray();
 
-        for (let i in boxDropedPictureCollides) {
-            let boxPicture = boxDropedPictureCollides[i];
+        for (let i in boxPictureCollides) {
+            let boxPicture = boxPictureCollides[i];
             var picture = boxPicture.picture as Picture;
 
             if (picture.Droped) {

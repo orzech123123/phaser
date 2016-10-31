@@ -7,6 +7,9 @@
     constructor(src: string, successCallback: () => void, errorCallback?: () => void, statusCallback?: () => void, infiniteLoop?: boolean) {
         this.infiniteLoop = infiniteLoop;
 
+        if (src.slice(0, "http".length) !== "http" && src.slice(0, "www".length) !== "www")
+            src = (DeviceHelper.IsWindows() ? "ms-appx://io.cordova.myapp81c339/www/" : "file:///android_asset/www/") + src;
+
         this.Media = new Media(src, successCallback, errorCallback, (status: number) => {
             this.changeStatus(status);
 
