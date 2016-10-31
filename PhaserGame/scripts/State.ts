@@ -1,15 +1,31 @@
-﻿class State implements IUpdatable, ICollidableListener {
+﻿interface IState extends IUpdatable, ICollidableListener  {
+    Generate(count: number);
+    Start();
+    RegisterOnMoveNext(action: Function);
+    RegisterOnValidAnswer(action: Function);
+    RegisterOnInvalidAnswer(action: Function);
+    Keys(): string[];
+    CurrentKey(): string;
+}
+
+class State implements IState {
     private game: PhaserGame;
     private keys : Array<string>;
     private onMoveNextActions : Array<Function>;
+    private onValidAnswerActions : Array<Function>;
+    private onInvalidAnswerActions: Array<Function>;
+    private isStarted = false;
 
     constructor(game: PhaserGame) {
         this.game = game;
         this.keys = [];
         this.onMoveNextActions = [];
+        this.onValidAnswerActions = [];
+        this.onInvalidAnswerActions = [];
     }
 
-    public Generate = (count : number) => {
+    public Generate = (count: number) => {
+        this.isStarted = false;
         this.keys = [];
 
         var keys = PictureKeys.Instance.Keys;
@@ -29,30 +45,36 @@
         this.keys = generatedKeys;
     }
     
-    get Keys(): string[] {
+    public Keys(): string[] {
         return this.keys;
     }
 
-    get CurrentKey(): string {
+    public CurrentKey(): string {
         if (this.keys.length === 0)
             return null;
 
         return this.keys[0];
     }
 
-    public MoveNext = () => {
+    private moveNext = () => {
         if (this.keys.length > 0)
             this.keys.shift();
 
         for (let i in this.onMoveNextActions)
             this.onMoveNextActions[i]();
 
-        this.game.TtsManager.PlayAudio(this.CurrentKey);
+        this.game.TtsManager.PlayAudio(this.CurrentKey());
     }
 
     public RegisterOnMoveNext(action: Function) {
         this.onMoveNextActions.push(action);
     }
+
+    public RegisterOnValidAnswer(action: Function) {
+        this.onValidAnswerActions.push(action); }
+
+    public RegisterOnInvalidAnswer(action: Function) {
+        this.onInvalidAnswerActions.push(action); }
 
     Update(): void {}
 
@@ -72,13 +94,25 @@
             var picture = boxPicture.picture as Picture;
 
             if (picture.Droped) {
-                if (picture.Key === this.CurrentKey) {
-                    this.game.PictureManager.RemovePicture(picture);
-                    this.MoveNext();
+                if (picture.Key === this.CurrentKey()) {
+                    for (let j in this.onValidAnswerActions)
+                        this.onValidAnswerActions[j](picture);
+                        
+                    this.moveNext();
                 } else {
-                    this.game.PictureManager.MovePicture(picture, picture.LastDragPosition);
+                    for (let k in this.onInvalidAnswerActions)
+                        this.onInvalidAnswerActions[k](picture);
                 }
             }
         }
+    }
+
+    public Start() {
+        if (this.isStarted)
+            return;
+
+        this.game.TtsManager.PlayAudio(this.CurrentKey());
+
+        this.isStarted = true;
     }
 }

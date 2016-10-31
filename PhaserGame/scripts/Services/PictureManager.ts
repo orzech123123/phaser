@@ -1,7 +1,7 @@
 ﻿interface IPictureManager extends ICollidableProvider, IPreloadDynamic, IUpdatable {
     GeneratePictures(keys: Array<string>, excludeRects?: Array<Phaser.Rectangle>): void;
     RemovePicture(picture: Picture);
-    MovePicture(picture: Picture, point : Phaser.Point);
+    MovePictureToLastPosition(picture: Picture);
 }
 
 interface IPictureTween {
@@ -120,20 +120,23 @@ class PictureManager extends GroupEntity implements IPictureManager
         }
     }
 
-    MovePicture(picture: Picture, point: Phaser.Point) {
+    public MovePictureToLastPosition(picture: Picture) {
         if (Enumerable.From(this.tweens).Any(t => t.Picture === picture))
             return;
-            
+
+        picture.GetSprite().input.enabled = false;
+        picture.Droped = false;
+
         let tween = this.game.Phaser.add.tween(picture.GetSprite());
-        tween.onComplete.add((sprite) => { this.onMoveComplete(sprite); });
+        tween.onComplete.add((sprite) => { this.onTweenComplete(sprite); });
 
         this.tweens.push({ Picture: picture, Tween: tween });
 
-        tween.to({ x: point.x, y: point.y }, 1000/*, Phaser.Easing.Linear.None, true, 0, 0, false*/);
+        tween.to({ x: picture.LastDragPosition.x, y: picture.LastDragPosition.y }, 1000);
         tween.start();
     }
 
-    private onMoveComplete = (sprite : Phaser.Sprite) => {
+    private onTweenComplete = (sprite: Phaser.Sprite) => {
         var tween = Enumerable.From(this.tweens)
             .Select((t, i) => ({
                 Match: t.Picture.GetSprite() === sprite,
@@ -146,7 +149,10 @@ class PictureManager extends GroupEntity implements IPictureManager
         if (tween == null)
             return;
             
-        if (tween.Index >= 0)
+        if (tween.Index >= 0) {
+            tween.Picture.GetSprite().input.enabled = true;
+            tween.Picture.Droped = false;
             this.tweens.splice(tween.Index, 1);
+        }
     }
 }

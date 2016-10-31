@@ -4,68 +4,67 @@
     public TtsManager: ITtsManager;
     public BoxManager: IBoxManager;
     public PreloadDynamicManager: IPreloadDynamicManager;
-    public State: State;
-    
-    public menu: Menu;
-    private backgroundMusic : ExtraMedia;
-    private backgroundBellsMusic : ExtraMedia;
-    private backgroundImage: Phaser.Sprite;
-    private isStarted: boolean;
-    private collidableManager : IColidableManager;
+    public HudManager: IHudManager;
+    public State: IState;
 
-    constructor() {
-        this.isStarted = false;
-    }
-    
-    public Init() : void {
+    private menu: Menu;
+    private backgroundMusic: ExtraMedia;
+    private backgroundBellsMusic: ExtraMedia;
+    private backgroundImage: Phaser.Sprite;
+    private collidableManager: IColidableManager;
+
+    public Init(): void {
         this.Phaser = new Phaser.Game(ScreenHelper.GetScreenWidth(), ScreenHelper.GetScreenHeight(), Phaser.AUTO, "content", { preload: () => { this.Preload(); }, create: () => { this.Create(); }, update: () => { this.Update(); }, render: () => { this.Render(); } }, null, true, null);
     }
 
     public Start(): void {
-//        if (this.isStarted)
-//            return;
-
-        this.State.Generate(10);        
+        this.State.Generate(10);
 
         var boxSprite = this.BoxManager.GenerateBox();
+        var hudRects = this.HudManager.GenerateHud();
+        let excludeRects = Enumerable.From(hudRects).Union([SpriteHelper.GetSpriteRectangle(boxSprite)]).ToArray();
+        this.PictureManager.GeneratePictures(this.State.Keys(), excludeRects);
 
-        this.PictureManager.GeneratePictures(this.State.Keys, [SpriteHelper.GetSpriteRectangle(boxSprite)]);
-
-        this.isStarted = true;
+        this.State.Start();
     }
-    
+
     public Preload(): void {
+        this.TtsManager = new TtsManager(this);
+        this.TtsManager.Preload();
+        this.backgroundMusic = new ExtraMedia("audio/agibagi.mp3", null, null, null, true);
+        this.backgroundBellsMusic = new ExtraMedia("audio/christmasBell.mp3", null, null, null, true);
+        this.BoxManager = new BoxManager(this);
+        this.BoxManager.Preload();
+        this.HudManager = new HudManager(this);
+        this.HudManager.Preload();
+
         this.menu = new Menu(this);
         this.PictureManager = new PictureManager(this);
-        this.TtsManager = new TtsManager(this);
-        this.BoxManager = new BoxManager(this);
         this.collidableManager = new CollidableManager();
         this.PreloadDynamicManager = new PreloadDynamicManager(this);
         this.State = new State(this);
-        
+
         this.Phaser.load.image("gameBackground", "images/gameBackground.jpg");
-
-        this.backgroundMusic = new ExtraMedia("audio/agibagi.mp3", null, null, null, true);
-        this.backgroundBellsMusic = new ExtraMedia("audio/christmasBell.mp3", null, null, null, true);
-
-        this.TtsManager.Preload();
-        this.BoxManager.Preload();
 
         this.collidableManager.RegisterProvider(this.PictureManager);
         this.collidableManager.RegisterProvider(this.BoxManager);
         this.collidableManager.RegisterCollidableListener(this.State);
         this.PreloadDynamicManager.RegisterPreloadDynamic(this.PictureManager);
+        this.State.RegisterOnValidAnswer((p) => { this.PictureManager.RemovePicture(p); });
+        this.State.RegisterOnInvalidAnswer((p) => { this.PictureManager.MovePictureToLastPosition(p); });
+        this.State.RegisterOnValidAnswer(() => { this.HudManager.ScorePlus(1); });
+        this.State.RegisterOnInvalidAnswer(() => { this.HudManager.ScoreMinus(1); });
     }
 
     public Create(): void {
         this.Phaser.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
-        
+
         this.createBackgroundImage();
         this.menu.Create();
         
-//        this.backgroundMusic.Media.setVolume(0.1);        
-//        this.backgroundMusic.Media.play();
-//        this.backgroundMusic.Media.setVolume(0.1);
+        //        this.backgroundMusic.Media.setVolume(0.1);        
+        //        this.backgroundMusic.Media.play();
+        //        this.backgroundMusic.Media.setVolume(0.1);
         this.backgroundBellsMusic.Media.setVolume(0.15);
         this.backgroundBellsMusic.Media.play();
         this.backgroundBellsMusic.Media.setVolume(0.15);
@@ -92,10 +91,10 @@
         this.backgroundImage.inputEnabled = true;
         this.backgroundImage.scale.setTo(ScreenHelper.GetScreenWidth() / this.backgroundImage.width, ScreenHelper.GetScreenHeight() / this.backgroundImage.height);
     }
-    
+
     public Render() {
     }
-    
+
     public Update() {
         this.menu.Update();
         this.PictureManager.Update();

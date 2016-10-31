@@ -83,9 +83,9 @@
         sequenceEqual(second: ArrayLike<T>, compareSelector?: (element: T) => any): IEnumerable<T>;
         sequenceEqual(second: IEnumerable<T>, compareSelector?: (element: T) => any): IEnumerable<T>;
 
-        union(second: T[], compareSelector?: (element: T) => any): IEnumerable<T>;
-        union(second: ArrayLike<T>, compareSelector?: (element: T) => any): IEnumerable<T>;
-        union(second: IEnumerable<T>, compareSelector?: (element: T) => any): IEnumerable<T>;
+        Union(second: T[], compareSelector?: (element: T) => any): IEnumerable<T>;
+        Union(second: ArrayLike<T>, compareSelector?: (element: T) => any): IEnumerable<T>;
+        Union(second: IEnumerable<T>, compareSelector?: (element: T) => any): IEnumerable<T>;
 
         orderBy(keySelector: (element: T) => any): IEnumerable<T>;
         orderByDescending(keySelector: (element: T) => any): IEnumerable<T>;

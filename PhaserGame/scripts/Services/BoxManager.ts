@@ -16,7 +16,7 @@ class BoxManager extends GroupEntity implements IBoxManager
     }
 
     public Preload(): void {
-        this.game.Phaser.load.image("boxbox", "images/box.png");
+        this.game.Phaser.load.image(this.Key, "images/box.png");
     }
 
     public GenerateBox = () : Phaser.Sprite => {

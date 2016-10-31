@@ -37,6 +37,8 @@
         if (this.hud != null)
             this.hud.Dispose();
 
+        this.Droped = false;
+
         super.Dispose();
     }
 }
