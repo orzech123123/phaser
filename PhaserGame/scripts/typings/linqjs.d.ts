@@ -47,7 +47,7 @@
         groupJoin<K, V>(inner: Object, outerKeySelector: (outer: T) => K, innerKeySelector: (inner: PropertyValue) => K, resultSelector: (outer: T, inner: PropertyValue) => V, compareSelector?: (obj: K) => any): IEnumerable<V>;
 
         all(predicate: (element: T) => boolean): boolean;
-        any(predicate?: (element: T) => boolean): boolean;
+        Any(predicate?: (element: T) => boolean): boolean;
         isEmpty(): boolean;
 
         concat(...sequences: T[]): IEnumerable<T>;
@@ -130,8 +130,8 @@
         firstOrDefault(predicate?: (element: T, index: number) => boolean, defaultValue?: T): T;
         last(predicate?: (element: T, index: number) => boolean): T;
         lastOrDefault(predicate?: (element: T, index: number) => boolean, defaultValue?: T): T;
-        single(predicate?: (element: T, index: number) => boolean): T;
-        singleOrDefault(predicate?: (element: T, index: number) => boolean, defaultValue?: T): T;
+        Single(predicate?: (element: T, index: number) => boolean): T;
+        SingleOrDefault(predicate?: (element: T, index: number) => boolean, defaultValue?: T): T;
         skip(count: number): IEnumerable<T>;
         skipWhile(predicate: (element: T, index: number) => boolean): IEnumerable<T>;
         take(count: number): IEnumerable<T>;

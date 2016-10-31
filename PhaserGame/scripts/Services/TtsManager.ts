@@ -22,6 +22,9 @@ class TtsManager implements ITtsManager {
     }
 
     public PlayAudio(sentence: string): void {
+        if (sentence == null)
+            return;
+
         var audio = this.mediaMap[sentence];
         if (!audio)
             return;

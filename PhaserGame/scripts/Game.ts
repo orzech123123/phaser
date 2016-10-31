@@ -53,6 +53,7 @@
 
         this.collidableManager.RegisterProvider(this.PictureManager);
         this.collidableManager.RegisterProvider(this.BoxManager);
+        this.collidableManager.RegisterCollidableListener(this.State);
         this.PreloadDynamicManager.RegisterPreloadDynamic(this.PictureManager);
     }
 

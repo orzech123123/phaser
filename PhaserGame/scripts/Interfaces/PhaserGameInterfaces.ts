@@ -15,3 +15,12 @@ interface IPreloadDynamic {
 interface IDisposable {
     Dispose();
 }
+
+interface ICollidableTuple {
+    Collidable1 : ICollidable;   
+    Collidable2 : ICollidable;  
+}
+
+interface ICollidableListener {
+    CollidablesNotification(pairs : Array<ICollidableTuple>)
+}

@@ -62,8 +62,8 @@ class Menu implements ICreate, IUpdatable
             return;
         
         this.game.PreloadDynamicManager.PreloadDynamicFor(() => {
-            this.Hide();
             this.game.Start();
+            this.Hide();
         });
     }
     

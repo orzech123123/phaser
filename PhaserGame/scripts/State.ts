@@ -1,4 +1,4 @@
-﻿class State implements IUpdatable {
+﻿class State implements IUpdatable, ICollidableListener {
     private game: PhaserGame;
     private keys : Array<string>;
     private onMoveNextActions : Array<Function>;
@@ -19,7 +19,11 @@
             var keysMinusGenerated = Enumerable.From(keys).Except(generatedKeys).ToArray();
 
             var tmpKeys = keysMinusGenerated.length > 0 ? keysMinusGenerated : keys;
-            generatedKeys.push(tmpKeys[this.game.Phaser.rnd.integerInRange(0, tmpKeys.length - 1)]);
+            var tmpKey = tmpKeys[this.game.Phaser.rnd.integerInRange(0, tmpKeys.length - 1)];
+            if (generatedKeys.length > 1 && tmpKey === generatedKeys[generatedKeys.length - 1])
+                continue;
+
+            generatedKeys.push(tmpKey);
         }
 
         this.keys = generatedKeys;
@@ -42,6 +46,8 @@
 
         for (let i in this.onMoveNextActions)
             this.onMoveNextActions[i]();
+
+        this.game.TtsManager.PlayAudio(this.CurrentKey);
     }
 
     public RegisterOnMoveNext(action: Function) {
@@ -49,4 +55,30 @@
     }
 
     Update(): void {}
+
+    CollidablesNotification(pairs: ICollidableTuple[]) {
+        var boxDropedPictureCollides = Enumerable.From(pairs)
+            .Where(p =>
+                (p.Collidable1 instanceof Box && p.Collidable2 instanceof Picture) ||
+                (p.Collidable1 instanceof Picture && p.Collidable2 instanceof Box))
+            .Select(p => ({
+                box: p.Collidable1 instanceof Box ? p.Collidable1 : p.Collidable2,
+                picture: p.Collidable1 instanceof Picture ? p.Collidable1 : p.Collidable2
+            }))
+            .ToArray();
+
+        for (let i in boxDropedPictureCollides) {
+            let boxPicture = boxDropedPictureCollides[i];
+            var picture = boxPicture.picture as Picture;
+
+            if (picture.Droped) {
+                if (picture.Key === this.CurrentKey) {
+                    this.game.PictureManager.RemovePicture(picture);
+                    this.MoveNext();
+                } else {
+                    this.game.PictureManager.MovePicture(picture, picture.LastDragPosition);
+                }
+            }
+        }
+    }
 }
