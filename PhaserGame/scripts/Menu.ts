@@ -6,6 +6,7 @@ class Menu implements ICreate, IUpdatable
     private game: PhaserGame;
 
     private $menuScreen: JQuery;
+    private $resumeButton: JQuery;
     private $startButton: JQuery;
     private $quitButton: JQuery;
     
@@ -21,10 +22,18 @@ class Menu implements ICreate, IUpdatable
 
         this.$quitButton = $("#quitButton");
         this.$quitButton.on("click", () => { this.onQuitButtonClick(); });
+
+        this.$resumeButton = $("#resumeButton");
+        this.$resumeButton.on("click", () => { this.onResumeButtonClick(); });
     }
 
     public Show = () => {
         this.game.Phaser.paused = true;
+
+        if (this.game.IsStarted)
+            this.$resumeButton.show();
+        else
+            this.$resumeButton.hide();
         
         this.$menuScreen.show();
     }
@@ -65,6 +74,13 @@ class Menu implements ICreate, IUpdatable
             this.game.Start();
             this.Hide();
         });
+    }
+
+    private onResumeButtonClick = () => {
+        if (!this.game.Phaser.paused)
+            return;
+
+        this.Hide();
     }
     
     private onQuitButtonClick = () => {

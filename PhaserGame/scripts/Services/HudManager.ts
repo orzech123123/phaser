@@ -1,7 +1,6 @@
 ﻿interface IHudManager extends IPreload {
     GenerateHud(): Array<Phaser.Rectangle>;
-    ScorePlus(number : number);
-    ScoreMinus(number: number);
+    SetScore(number : number);
     SetPictureName(name : string);
 }
 
@@ -10,9 +9,7 @@ class HudManager extends GroupEntity implements IHudManager {
     private star: Star;
     private graphics: Phaser.Graphics;
     private scoreText: Phaser.Text;
-    private score: number;
     private pictureNameText: Phaser.Text;
-    private pictureName: string;
     
     private fontSize = DeviceHelper.IsWindows() ? "32px" : "22px"; 
 
@@ -37,7 +34,6 @@ class HudManager extends GroupEntity implements IHudManager {
         this.star.GetSprite().centerX = (ScreenHelper.GetScreenWidth() - this.star.GetSprite().width / 2) - margin;
         this.star.GetSprite().centerY = (this.star.GetSprite().height / 2) + margin;
         
-        this.score = 0;
         this.scoreText = this.game.Phaser.add.text(this.star.GetSprite().centerX, this.star.GetSprite().centerY, "0", { font: font, fill: "white", align: "left" }, this.Group);
         this.scoreText.centerX = this.star.GetSprite().centerX;
         this.scoreText.centerY = this.star.GetSprite().centerY + this.star.GetSprite().height / 10;
@@ -48,18 +44,11 @@ class HudManager extends GroupEntity implements IHudManager {
         return [this.star.GetRect(), new Phaser.Rectangle(this.pictureNameText.x, this.pictureNameText.y, this.pictureNameText.width, this.pictureNameText.height)];
     }
 
-    ScorePlus(number: number) {
-        this.score += number;
-        this.scoreText.text = String(this.score);
-    }
-
-    ScoreMinus(number: number) {
-        this.score -= number;
-        this.scoreText.text = String(this.score);
+    SetScore(number: number) {
+        this.scoreText.text = String(number);
     }
 
     SetPictureName(name: string) {
-        this.pictureName = name;
-        this.pictureNameText.text = this.pictureName != null ? this.pictureName.toUpperCase() : "";
+        this.pictureNameText.text = name != null ? name.toUpperCase() : "";
     }
 }

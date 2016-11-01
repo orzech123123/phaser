@@ -6,6 +6,7 @@
     public PreloadDynamicManager: IPreloadDynamicManager;
     public HudManager: IHudManager;
     public State: IState;
+    public IsStarted = false;
 
     private menu: Menu;
     private backgroundBellsMusic: ExtraMedia;
@@ -25,6 +26,7 @@
         this.PictureManager.GeneratePictures(this.State.Keys(), excludeRects);
 
         this.State.Start();
+        this.IsStarted = true;
     }
 
     public Preload(): void {
@@ -55,12 +57,23 @@
         this.PreloadDynamicManager.RegisterPreloadDynamic(this.PictureManager);
         this.State.RegisterOnValidAnswer((p) => { this.PictureManager.RemovePicture(p); });
         this.State.RegisterOnInvalidAnswer((p) => { this.PictureManager.MovePictureToLastPosition(p); });
-        this.State.RegisterOnValidAnswer(() => { this.HudManager.ScorePlus(1); });
-        this.State.RegisterOnInvalidAnswer(() => { this.HudManager.ScoreMinus(1); });
+        this.State.RegisterOnValidAnswer((p, s) => { this.HudManager.SetScore(s); });
+        this.State.RegisterOnInvalidAnswer((p, s) => { this.HudManager.SetScore(s); });
         this.State.RegisterOnStart((key) => { this.TtsManager.PlayAudio(key); });
         this.State.RegisterOnMoveNext((key) => { this.TtsManager.PlayAudio(key); });
         this.State.RegisterOnStart((key) => { this.HudManager.SetPictureName(key); });
         this.State.RegisterOnMoveNext((key) => { this.HudManager.SetPictureName(key); });
+        this.State.RegisterOnFinish((s) => {
+            var provider = new TtsProvider();
+            var url = provider.GetAudioUrl("Gratulacje! Zdobyłeś " + String(s) + "punktów!");
+            var media = new ExtraMedia(url, null, null, (status) => {
+                if (status === Media.MEDIA_STOPPED) {
+                    this.IsStarted = false;
+                    this.menu.Show();
+                }
+            }, false);
+            media.Replay();
+        });
     }
 
     public Create(): void {

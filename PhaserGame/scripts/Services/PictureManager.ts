@@ -116,10 +116,6 @@ class PictureManager extends GroupEntity implements IPictureManager
 
         if (this.pictures.indexOf(picture) >= 0)
             this.pictures.splice(this.pictures.indexOf(picture), 1);
-
-        if (this.pictures.length === 0 || this.Group.children.length === 0) {
-            console.log("---------- END ------------");
-        }
     }
 
     public MovePictureToLastPosition(picture: Picture) {

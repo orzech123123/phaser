@@ -4,7 +4,7 @@
     public Media : Media;
     private mediaLoaded : boolean;
 
-    constructor(src: string, successCallback: () => void, errorCallback?: () => void, statusCallback?: () => void, infiniteLoop?: boolean) {
+    constructor(src: string, successCallback: () => void, errorCallback?: () => void, statusCallback?: (status?) => void, infiniteLoop?: boolean) {
         this.infiniteLoop = infiniteLoop;
 
         if (src.slice(0, "http".length) !== "http" && src.slice(0, "www".length) !== "www")
@@ -16,7 +16,7 @@
             this.tryInfiniteLoop();
 
             if(!!statusCallback)
-                statusCallback();
+                statusCallback(status);
         });
     }
 

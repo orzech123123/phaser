@@ -2,6 +2,7 @@
     Generate(count: number);
     Start();
     RegisterOnStart(action: Function);
+    RegisterOnFinish(action: Function);
     RegisterOnMoveNext(action: Function);
     RegisterOnValidAnswer(action: Function);
     RegisterOnInvalidAnswer(action: Function);
@@ -16,7 +17,9 @@ class State implements IState {
     private onValidAnswerActions : Array<Function>;
     private onInvalidAnswerActions: Array<Function>;
     private onStartActions: Array<Function>;
+    private onFinishActions: Array<Function>;
     private isStarted = false;
+    private score = 0;
 
     constructor(game: PhaserGame) {
         this.game = game;
@@ -25,11 +28,13 @@ class State implements IState {
         this.onValidAnswerActions = [];
         this.onInvalidAnswerActions = [];
         this.onStartActions = [];
+        this.onFinishActions = [];
     }
 
     public Generate = (count: number) => {
         this.isStarted = false;
         this.keys = [];
+        this.score = 0;
 
         var keys = PictureKeys.Instance.Keys;
         var generatedKeys = [];
@@ -62,6 +67,14 @@ class State implements IState {
     private moveNext = () => {
         if (this.keys.length > 0)
             this.keys.shift();
+        
+        if (this.keys.length === 0) {
+            for (let i in this.onFinishActions)
+                this.onFinishActions[i](this.score);
+
+            return;
+        }
+        
 
         for (let i in this.onMoveNextActions)
             this.onMoveNextActions[i](this.CurrentKey());
@@ -83,6 +96,10 @@ class State implements IState {
         this.onStartActions.push(action);
     }
 
+    public RegisterOnFinish(action: Function) {
+        this.onFinishActions.push(action);
+    }
+
     Update(): void {}
 
     CollidablesNotification(pairs: ICollidableTuple[]) {
@@ -102,13 +119,17 @@ class State implements IState {
 
             if (picture.Droped) {
                 if (picture.Key === this.CurrentKey()) {
+                    this.score++;
+
                     for (let j in this.onValidAnswerActions)
-                        this.onValidAnswerActions[j](picture);
+                        this.onValidAnswerActions[j](picture, this.score);
                         
                     this.moveNext();
                 } else {
+                    this.score--;
+
                     for (let k in this.onInvalidAnswerActions)
-                        this.onInvalidAnswerActions[k](picture);
+                        this.onInvalidAnswerActions[k](picture, this.score);
                 }
             }
         }
