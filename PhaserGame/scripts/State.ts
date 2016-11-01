@@ -1,6 +1,7 @@
 ﻿interface IState extends IUpdatable, ICollidableListener  {
     Generate(count: number);
     Start();
+    RegisterOnStart(action: Function);
     RegisterOnMoveNext(action: Function);
     RegisterOnValidAnswer(action: Function);
     RegisterOnInvalidAnswer(action: Function);
@@ -14,6 +15,7 @@ class State implements IState {
     private onMoveNextActions : Array<Function>;
     private onValidAnswerActions : Array<Function>;
     private onInvalidAnswerActions: Array<Function>;
+    private onStartActions: Array<Function>;
     private isStarted = false;
 
     constructor(game: PhaserGame) {
@@ -22,6 +24,7 @@ class State implements IState {
         this.onMoveNextActions = [];
         this.onValidAnswerActions = [];
         this.onInvalidAnswerActions = [];
+        this.onStartActions = [];
     }
 
     public Generate = (count: number) => {
@@ -61,9 +64,7 @@ class State implements IState {
             this.keys.shift();
 
         for (let i in this.onMoveNextActions)
-            this.onMoveNextActions[i]();
-
-        this.game.TtsManager.PlayAudio(this.CurrentKey());
+            this.onMoveNextActions[i](this.CurrentKey());
     }
 
     public RegisterOnMoveNext(action: Function) {
@@ -71,10 +72,16 @@ class State implements IState {
     }
 
     public RegisterOnValidAnswer(action: Function) {
-        this.onValidAnswerActions.push(action); }
+        this.onValidAnswerActions.push(action);
+    }
 
     public RegisterOnInvalidAnswer(action: Function) {
-        this.onInvalidAnswerActions.push(action); }
+        this.onInvalidAnswerActions.push(action);
+    }
+    
+    public RegisterOnStart(action: Function) {
+        this.onStartActions.push(action);
+    }
 
     Update(): void {}
 
@@ -110,8 +117,9 @@ class State implements IState {
     public Start() {
         if (this.isStarted)
             return;
-
-        this.game.TtsManager.PlayAudio(this.CurrentKey());
+            
+        for (let i in this.onStartActions)
+            this.onStartActions[i](this.CurrentKey());
 
         this.isStarted = true;
     }

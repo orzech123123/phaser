@@ -1,4 +1,4 @@
-﻿interface IPictureManager extends ICollidableProvider, IPreloadDynamic, IUpdatable {
+﻿interface IPictureManager extends ICollidableProvider, IPreloadDynamic, IUpdatable, IPreload {
     GeneratePictures(keys: Array<string>, excludeRects?: Array<Phaser.Rectangle>): void;
     RemovePicture(picture: Picture);
     MovePictureToLastPosition(picture: Picture);
@@ -14,6 +14,8 @@ class PictureManager extends GroupEntity implements IPictureManager
     private game: PhaserGame;
     private imageProvider: IImageProvider;
     private pictures: Array<Picture>;
+    private dragAudio : ExtraMedia;
+    private dropAudio : ExtraMedia;
 
     private tweens: Array<IPictureTween>;
     
@@ -56,7 +58,7 @@ class PictureManager extends GroupEntity implements IPictureManager
         for (let i in rectangles) {
             let key = keys[i];
             let rectangle = rectangles[i];
-            var picture = new Picture(this.Group, rectangle.x, rectangle.y, key);
+            var picture = new Picture(this.Group, rectangle.x, rectangle.y, key, this.dragAudio, this.dropAudio);
             this.pictures.push(picture);
             picture.EnableHud("pictureHud", this.game.Phaser.add);
         }
@@ -154,5 +156,10 @@ class PictureManager extends GroupEntity implements IPictureManager
             tween.Picture.Droped = false;
             this.tweens.splice(tween.Index, 1);
         }
+    }
+
+    Preload(): void {
+        this.dragAudio = new ExtraMedia("audio/drag.mp3", null, null, null);
+        this.dropAudio = new ExtraMedia("audio/drop.mp3", null, null, null);
     }
 }

@@ -8,7 +8,6 @@
     public State: IState;
 
     private menu: Menu;
-    private backgroundMusic: ExtraMedia;
     private backgroundBellsMusic: ExtraMedia;
     private backgroundImage: Phaser.Sprite;
     private collidableManager: IColidableManager;
@@ -29,10 +28,13 @@
     }
 
     public Preload(): void {
+        this.backgroundBellsMusic = new ExtraMedia("audio/christmasBell.mp3", null, null, null, true);
+        this.backgroundBellsMusic.Media.setVolume(0.15);
+        this.backgroundBellsMusic.Media.play();
+        this.backgroundBellsMusic.Media.setVolume(0.15);
+
         this.TtsManager = new TtsManager(this);
         this.TtsManager.Preload();
-        this.backgroundMusic = new ExtraMedia("audio/agibagi.mp3", null, null, null, true);
-        this.backgroundBellsMusic = new ExtraMedia("audio/christmasBell.mp3", null, null, null, true);
         this.BoxManager = new BoxManager(this);
         this.BoxManager.Preload();
         this.HudManager = new HudManager(this);
@@ -40,10 +42,11 @@
 
         this.menu = new Menu(this);
         this.PictureManager = new PictureManager(this);
+        this.PictureManager.Preload();
         this.collidableManager = new CollidableManager();
         this.PreloadDynamicManager = new PreloadDynamicManager(this);
         this.State = new State(this);
-
+        
         this.Phaser.load.image("gameBackground", "images/gameBackground.jpg");
 
         this.collidableManager.RegisterProvider(this.PictureManager);
@@ -54,6 +57,10 @@
         this.State.RegisterOnInvalidAnswer((p) => { this.PictureManager.MovePictureToLastPosition(p); });
         this.State.RegisterOnValidAnswer(() => { this.HudManager.ScorePlus(1); });
         this.State.RegisterOnInvalidAnswer(() => { this.HudManager.ScoreMinus(1); });
+        this.State.RegisterOnStart((key) => { this.TtsManager.PlayAudio(key); });
+        this.State.RegisterOnMoveNext((key) => { this.TtsManager.PlayAudio(key); });
+        this.State.RegisterOnStart((key) => { this.HudManager.SetPictureName(key); });
+        this.State.RegisterOnMoveNext((key) => { this.HudManager.SetPictureName(key); });
     }
 
     public Create(): void {
@@ -61,13 +68,6 @@
 
         this.createBackgroundImage();
         this.menu.Create();
-        
-        //        this.backgroundMusic.Media.setVolume(0.1);        
-        //        this.backgroundMusic.Media.play();
-        //        this.backgroundMusic.Media.setVolume(0.1);
-        this.backgroundBellsMusic.Media.setVolume(0.15);
-        this.backgroundBellsMusic.Media.play();
-        this.backgroundBellsMusic.Media.setVolume(0.15);
 
         if (!DeviceHelper.IsWindows())
             this.setOnPauseAndResume();
@@ -77,11 +77,9 @@
 
     private setOnPauseAndResume = () => {
         document.addEventListener("pause", () => {
-            this.backgroundMusic.Media.pause();
             this.backgroundBellsMusic.Media.pause();
         }, false);
         document.addEventListener("resume", () => {
-            this.backgroundMusic.Media.play();
             this.backgroundBellsMusic.Media.play();
         }, false);
     }

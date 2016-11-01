@@ -1,7 +1,8 @@
 ﻿interface IHudManager extends IPreload {
     GenerateHud(): Array<Phaser.Rectangle>;
     ScorePlus(number : number);
-    ScoreMinus(number : number);
+    ScoreMinus(number: number);
+    SetPictureName(name : string);
 }
 
 class HudManager extends GroupEntity implements IHudManager {
@@ -10,6 +11,10 @@ class HudManager extends GroupEntity implements IHudManager {
     private graphics: Phaser.Graphics;
     private scoreText: Phaser.Text;
     private score: number;
+    private pictureNameText: Phaser.Text;
+    private pictureName: string;
+    
+    private fontSize = DeviceHelper.IsWindows() ? "32px" : "22px"; 
 
     constructor(game : PhaserGame) {
         super("", game.Phaser.add, true);
@@ -24,25 +29,23 @@ class HudManager extends GroupEntity implements IHudManager {
     public GenerateHud(): Array<Phaser.Rectangle> {
         this.RecreateGroup();
 
-        let rectX = ScreenHelper.GetScreenWidth() / 4 * 3;
-        let rectY = 0;
-        let rectWidth = ScreenHelper.GetScreenWidth() / 4;
-        let rectHeight = ScreenHelper.GetScreenHeight() * 0.15;
-        this.graphics = this.game.Phaser.add.graphics(rectX, rectY, this.Group);
-        this.graphics.beginFill(0x2884FF);
-        this.graphics.drawRoundedRect(0, 0, rectWidth, rectHeight, 40);
-
+        let font = "bold " + this.fontSize + " Arial";
+        let margin = ScreenHelper.GetScreenHeight() / 20;
+        
         this.star = new Star(this.Group, 0, 0, "starstar");
-        ScreenHelper.ScaleByScreenHeight(this.star.GetSprite(), 0.15);
-        this.star.GetSprite().x = ScreenHelper.GetScreenWidth() - this.star.GetSprite().width;
-        this.star.GetSprite().y = 0;
-
+        ScreenHelper.ScaleByScreenHeight(this.star.GetSprite(), 0.125);
+        this.star.GetSprite().centerX = (ScreenHelper.GetScreenWidth() - this.star.GetSprite().width / 2) - margin;
+        this.star.GetSprite().centerY = (this.star.GetSprite().height / 2) + margin;
+        
         this.score = 0;
-        this.scoreText = this.game.Phaser.add.text(this.star.GetSprite().centerX, this.star.GetSprite().centerY, "0", { font: "65px Arial", fill: "#ff0044", align: "center" });
+        this.scoreText = this.game.Phaser.add.text(this.star.GetSprite().centerX, this.star.GetSprite().centerY, "0", { font: font, fill: "white", align: "left" }, this.Group);
         this.scoreText.centerX = this.star.GetSprite().centerX;
-        this.scoreText.centerY = this.star.GetSprite().centerY;
+        this.scoreText.centerY = this.star.GetSprite().centerY + this.star.GetSprite().height / 10;
 
-        return [this.star.GetRect(), new Phaser.Rectangle(rectX, rectY, rectWidth, rectHeight)];
+        this.pictureNameText = this.game.Phaser.add.text(
+            0 + margin, 0 + margin, "", { font: font, fill: "white", wordWrap: true, wordWrapWidth: ScreenHelper.GetScreenWidth() / 4, align: "center", backgroundColor: "#053272" }, this.Group);
+
+        return [this.star.GetRect(), new Phaser.Rectangle(this.pictureNameText.x, this.pictureNameText.y, this.pictureNameText.width, this.pictureNameText.height)];
     }
 
     ScorePlus(number: number) {
@@ -52,5 +55,11 @@ class HudManager extends GroupEntity implements IHudManager {
 
     ScoreMinus(number: number) {
         this.score -= number;
-        this.scoreText.text = String(this.score);}
+        this.scoreText.text = String(this.score);
+    }
+
+    SetPictureName(name: string) {
+        this.pictureName = name;
+        this.pictureNameText.text = this.pictureName != null ? this.pictureName.toUpperCase() : "";
+    }
 }

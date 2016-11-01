@@ -1,13 +1,22 @@
 ﻿class Picture extends SpriteEntity implements ICollidable, IUpdatable, IDisposable {
     private hud: PictureHud;
 
-    constructor(group: Phaser.Group, x: number, y: number, key: string) {
+    constructor(group: Phaser.Group, x: number, y: number, key: string, dragAudio?: ExtraMedia, dropAudio?: ExtraMedia) {
         super(group, x, y, key);
         
         this.Sprite.inputEnabled = true;
         this.Sprite.input.enableDrag();
         this.Sprite.input.boundsRect = ScreenHelper.GetScreenRectangle();
         ScreenHelper.ScaleByScreenWidth(this.Sprite, 0.1);
+        
+        if(dragAudio != null)
+            this.Sprite.events.onDragStart.add(() => {
+                dragAudio.Replay();;
+            });
+        if (dropAudio != null)
+            this.Sprite.events.onDragStop.add(() => {
+                dropAudio.Replay();
+            });
     }
 
     public EnableHud = (key: string, factory : Phaser.GameObjectFactory) => {
