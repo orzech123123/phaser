@@ -1,0 +1,34 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <!--<meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *">-->
+    <title>PhaserGame</title>
+
+    <link href="css/index.css" rel="stylesheet" />
+    <link href="css/jquery-ui.min.css" rel="stylesheet" />
+</head>
+<body>
+    <div id="content"></div>
+
+    <div id="menuScreen" class="pg-backgroundScreen">
+        <div id="menuButtons" class="pg-menuButtons pg-center">
+            <button id="resumeButton" class="ui-button ui-widget ui-corner-all" style="display: none">WZNÓW</button>
+            <button id="startButton" class="ui-button ui-widget ui-corner-all">START</button>
+            <button id="quitButton" class="ui-button ui-widget ui-corner-all">ZAKOŃCZ</button>
+        </div>
+    </div>
+
+    <div id="loadingScreen" class="pg-backgroundScreen">
+        <div id="progressbar" class="pg-center pg-progressbar"></div>
+    </div>
+
+    <script src="cordova.js"></script>
+    <script src="scripts/platformOverrides.js"></script>
+    <script src="scripts/appBundle.js"></script>
+    <script src="scripts/js/linq.js"></script>	
+    <script src="scripts/js/jquery-3.1.1.min.js"></script>	
+    <script src="scripts/js/jquery-ui.min.js"></script>	
+    <script src="scripts/js/phaser.js"></script>	
+</body>
+</html>
