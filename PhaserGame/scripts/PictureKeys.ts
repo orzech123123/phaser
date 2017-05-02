@@ -7,7 +7,8 @@ class PictureKeys {
     private keys: Array<string>;
 
     constructor() {
-        this.keys = JSON.parse(RequestHelper.Get("http://www.orzechservices.aspnet.pl/picturekey"));
+        this.keys = JSON.parse(RequestHelper.Get("http://orzech123-001-site1.htempurl.com/picturekey"));
+        //this.keys = JSON.parse(RequestHelper.Get("http://localhost:3654/picturekey"));
     }
 
     static get Instance(): PictureKeys {
